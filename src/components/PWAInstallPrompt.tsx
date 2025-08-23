@@ -34,6 +34,20 @@ export default function PWAInstallPrompt() {
 
   const handleIOSInstall = () => {
     pwaInstaller.showIOSInstallInstructions();
+    
+    // After showing instructions, mark as potentially installed
+    // We'll set a timer to check if user actually added it
+    setTimeout(() => {
+      const userResponse = confirm(
+        'Did you successfully add the app to your Home Screen?\n\n' +
+        'This helps us provide a better experience in the future.'
+      );
+      
+      if (userResponse) {
+        pwaRedirect.markAsInstalled();
+        setShowInstallButton(false);
+      }
+    }, 5000); // Wait 5 seconds for user to potentially add the app
   };
 
   // Don't show if already installed or if no install prompt

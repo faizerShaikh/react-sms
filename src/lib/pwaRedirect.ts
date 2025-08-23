@@ -55,14 +55,10 @@ export class PWARedirect {
    * Check if PWA is installed on the device
    */
   private async isPWAInstalled(): Promise<boolean> {
-    // Method 1: Check if app is in list of installed apps
-    if ('getInstalledRelatedApps' in navigator) {
-      try {
-        const relatedApps = await (navigator as any).getInstalledRelatedApps();
-        return relatedApps.length > 0;
-      } catch (error) {
-        console.log('getInstalledRelatedApps failed:', error);
-      }
+    // Method 1: Check localStorage for installation status (most reliable for our case)
+    const installStatus = localStorage.getItem('pwa-installed');
+    if (installStatus === 'true') {
+      return true;
     }
 
     // Method 2: Check if running in standalone mode (already installed)
@@ -70,13 +66,28 @@ export class PWARedirect {
       return true;
     }
 
-    // Method 3: Check localStorage for installation status
-    const installStatus = localStorage.getItem('pwa-installed');
-    if (installStatus === 'true') {
-      return true;
+    // Method 3: Check if app is in list of installed apps (Chrome only)
+    if ('getInstalledRelatedApps' in navigator) {
+      try {
+        const relatedApps = await (navigator as any).getInstalledRelatedApps();
+        if (relatedApps.length > 0) {
+          // Mark as installed if detected
+          localStorage.setItem('pwa-installed', 'true');
+          return true;
+        }
+      } catch (error) {
+        console.log('getInstalledRelatedApps failed:', error);
+      }
     }
 
-    // Method 4: Check if beforeinstallprompt event was fired (indicates installable)
+    // Method 4: For iOS, check if we have a history of being added to home screen
+    if (this.isIOS()) {
+      const iosInstalled = localStorage.getItem('ios-pwa-added');
+      if (iosInstalled === 'true') {
+        return true;
+      }
+    }
+
     return false;
   }
 
@@ -117,7 +128,7 @@ export class PWARedirect {
 
     // Add event listeners
     const openButton = prompt.querySelector('#pwa-redirect-open');
-    const continueButton = prompt.querySelector('#pwa-redirect-button');
+    const continueButton = prompt.querySelector('#pwa-redirect-continue');
 
     if (openButton) {
       openButton.addEventListener('click', () => {
@@ -147,20 +158,15 @@ export class PWARedirect {
    */
   public redirectToPWA(): void {
     try {
-      // Method 1: Try to open PWA using custom URL scheme
-      const pwaUrl = this.getPWAUrl();
-      
-      if (pwaUrl) {
-        // Try to open PWA
-        window.location.href = pwaUrl;
-        
-        // Fallback: if PWA doesn't open, try to install it
-        setTimeout(() => {
-          this.fallbackToInstall();
-        }, 1000);
+      if (this.isIOS()) {
+        // For iOS, show instructions to manually open the PWA
+        this.showIOSOpenInstructions();
+      } else if (this.isAndroid()) {
+        // For Android, try intent-based redirection
+        this.redirectAndroidPWA();
       } else {
-        // Fallback to install prompt
-        this.fallbackToInstall();
+        // For desktop, try to focus/open PWA window
+        this.redirectDesktopPWA();
       }
     } catch (error) {
       console.log('PWA redirect failed:', error);
@@ -169,27 +175,88 @@ export class PWARedirect {
   }
 
   /**
-   * Get PWA URL for redirection
+   * Show iOS instructions to open PWA
    */
-  private getPWAUrl(): string | null {
-    // Try different PWA URL schemes
-    const schemes = [
-      'sms://', // Custom scheme
-      'intent://', // Android intent
-      'sms-react://', // App-specific scheme
-    ];
+  private showIOSOpenInstructions(): void {
+    alert(
+      'To open the School Management System app:\n\n' +
+      '1. Go to your Home Screen\n' +
+      '2. Look for the "SMS" app icon\n' +
+      '3. Tap the icon to open the app\n\n' +
+      'The app should be available on your Home Screen if you previously added it.'
+    );
+  }
 
-    for (const scheme of schemes) {
-      try {
-        // Test if scheme is supported
-        const testUrl = `${scheme}${window.location.pathname}`;
-        return testUrl;
-      } catch (error) {
-        continue;
-      }
+  /**
+   * Redirect Android PWA using intent
+   */
+  private redirectAndroidPWA(): void {
+    const currentUrl = window.location.href;
+    
+    // Try to launch PWA using Android intent
+    const intentUrl = `intent://${window.location.host}${window.location.pathname}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(currentUrl)};end`;
+    
+    try {
+      window.location.href = intentUrl;
+      
+      // Fallback after a short delay
+      setTimeout(() => {
+        console.log('Intent redirect may have failed, showing install prompt');
+        this.fallbackToInstall();
+      }, 2000);
+    } catch (error) {
+      console.log('Android intent failed:', error);
+      this.fallbackToInstall();
     }
+  }
 
-    return null;
+  /**
+   * Redirect desktop PWA
+   */
+  private redirectDesktopPWA(): void {
+    // For desktop, try to open a new window in standalone mode
+    // This is a fallback approach since true PWA redirection is limited
+    try {
+      const pwaWindow = window.open(
+        window.location.href,
+        'PWAWindow',
+        'width=1024,height=768,menubar=no,toolbar=no,location=no,status=no'
+      );
+      
+      if (pwaWindow) {
+        // Focus the new window
+        pwaWindow.focus();
+        // Optionally close current window after a delay
+        setTimeout(() => {
+          if (confirm('PWA window opened. Close this browser tab?')) {
+            window.close();
+          }
+        }, 1000);
+      } else {
+        this.fallbackToInstall();
+      }
+    } catch (error) {
+      console.log('Desktop PWA redirect failed:', error);
+      this.fallbackToInstall();
+    }
+  }
+
+  /**
+   * Check if running on iOS
+   */
+  private isIOS(): boolean {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+  }
+
+
+
+  /**
+   * Check if running on Android
+   */
+  private isAndroid(): boolean {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /android/.test(userAgent);
   }
 
   /**
@@ -350,6 +417,11 @@ export class PWARedirect {
    */
   public markAsInstalled(): void {
     localStorage.setItem('pwa-installed', 'true');
+    
+    // For iOS, also mark the iOS-specific flag
+    if (this.isIOS()) {
+      localStorage.setItem('ios-pwa-added', 'true');
+    }
   }
 
   /**

@@ -42,8 +42,24 @@ export default function PWARedirectHandler() {
 
   const handleOpenApp = () => {
     setShowRedirectPrompt(false);
-    // The redirect logic is handled by the pwaRedirect utility
-    pwaRedirect.redirectToPWA();
+    
+    // Platform-specific handling
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(userAgent);
+    
+    if (isIOS) {
+      // For iOS, provide clear instructions
+      alert(
+        'To open the School Management System app:\n\n' +
+        '1. Go to your Home Screen\n' +
+        '2. Look for the "SMS" app icon\n' +
+        '3. Tap the icon to open the app\n\n' +
+        'The app should be available on your Home Screen if you previously added it.'
+      );
+    } else {
+      // For other platforms, use the redirect utility
+      pwaRedirect.redirectToPWA();
+    }
   };
 
   const handleContinueInBrowser = () => {

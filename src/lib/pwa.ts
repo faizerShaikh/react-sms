@@ -186,3 +186,6 @@ export class PWAStatus {
 // Export singleton instances
 export const pwaInstaller = new PWAInstaller();
 export const pwaStatus = PWAStatus.getInstance();
+
+// Re-export redirect utility
+export { pwaRedirect } from "./pwaRedirect";

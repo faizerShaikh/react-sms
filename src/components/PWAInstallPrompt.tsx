@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { pwaInstaller } from "../lib/pwa";
+import { pwaInstaller, pwaRedirect } from "../lib/pwa";
 import "./PWAInstallPrompt.css";
 
 export default function PWAInstallPrompt() {
@@ -27,6 +27,8 @@ export default function PWAInstallPrompt() {
     if (success) {
       console.log("PWA installation successful");
       setShowInstallButton(false);
+      // Mark as installed for redirect functionality
+      pwaRedirect.markAsInstalled();
     }
   };
 

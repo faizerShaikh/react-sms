@@ -11,7 +11,7 @@ if ("serviceWorker" in navigator) {
       .register("/sw.js")
       .then((registration) => {
         console.log("SW registered: ", registration);
-        
+
         // Check for PWA redirect after service worker is ready
         setTimeout(() => {
           pwaRedirect.checkAndRedirect();
@@ -25,35 +25,36 @@ if ("serviceWorker" in navigator) {
 
 // Listen for iOS PWA detection
 // iOS Safari fires this event when page is loaded in standalone mode
-if (window.matchMedia('(display-mode: standalone)').matches) {
+if (window.matchMedia("(display-mode: standalone)").matches) {
   // Running as PWA
-  console.log('Running as PWA');
+  console.log("Running as PWA");
   pwaRedirect.markAsInstalled();
 }
 
 // Listen for visibility change to detect when user returns from home screen
-document.addEventListener('visibilitychange', () => {
+document.addEventListener("visibilitychange", () => {
   if (!document.hidden) {
     // Page became visible - could indicate user returned from adding to home screen
     const userAgent = navigator.userAgent.toLowerCase();
     const isIOS = /iphone|ipad|ipod/.test(userAgent);
-    
-    if (isIOS && !window.matchMedia('(display-mode: standalone)').matches) {
+
+    if (isIOS && !window.matchMedia("(display-mode: standalone)").matches) {
       // Check if user might have just added the app
-      const lastInstallAttempt = localStorage.getItem('ios-install-attempt');
+      const lastInstallAttempt = localStorage.getItem("ios-install-attempt");
       if (lastInstallAttempt) {
         const timeSinceAttempt = Date.now() - parseInt(lastInstallAttempt);
-        if (timeSinceAttempt < 30000) { // Within 30 seconds
+        if (timeSinceAttempt < 30000) {
+          // Within 30 seconds
           // Ask user if they added the app
           setTimeout(() => {
             const added = confirm(
-              'Did you just add the School Management System to your Home Screen?\n\n' +
-              'This helps us provide a better experience.'
+              "Did you just add the School Management System to your Home Screen?\n\n" +
+                "This helps us provide a better experience."
             );
             if (added) {
               pwaRedirect.markAsInstalled();
             }
-            localStorage.removeItem('ios-install-attempt');
+            localStorage.removeItem("ios-install-attempt");
           }, 1000);
         }
       }

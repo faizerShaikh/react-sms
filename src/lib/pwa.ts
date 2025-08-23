@@ -132,14 +132,14 @@ export class PWAInstaller {
   public showIOSInstallInstructions(): void {
     if (this.isIOS) {
       // Mark the time when user attempts to install
-      localStorage.setItem('ios-install-attempt', Date.now().toString());
-      
+      localStorage.setItem("ios-install-attempt", Date.now().toString());
+
       alert(
         "To install this app on your iOS device:\n\n" +
           "1. Tap the Share button (square with arrow up)\n" +
           '2. Scroll down and tap "Add to Home Screen"\n' +
           '3. Tap "Add" to confirm\n\n' +
-          'After adding, you can open the app directly from your Home Screen!'
+          "After adding, you can open the app directly from your Home Screen!"
       );
     }
   }

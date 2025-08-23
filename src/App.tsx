@@ -1,6 +1,9 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import PWABadge from "./PWABadge.tsx";
+import PWAInstallPrompt from "./components/PWAInstallPrompt.tsx";
+import OfflinePage from "./components/OfflinePage.tsx";
+import PWAStatus from "./components/PWAStatus.tsx";
 import "./App.css";
 
 function App() {
@@ -29,6 +32,9 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       <PWABadge />
+      <PWAInstallPrompt />
+      <OfflinePage />
+      <PWAStatus />
     </>
   );
 }

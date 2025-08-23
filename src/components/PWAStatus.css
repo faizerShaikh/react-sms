@@ -1,0 +1,61 @@
+.pwa-status {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 74, 176, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.pwa-status-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pwa-status-icon {
+  display: flex;
+  align-items: center;
+}
+
+.pwa-status-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.pwa-status-text {
+  white-space: nowrap;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .pwa-status {
+    top: 16px;
+    right: 16px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .pwa-status-icon svg {
+    width: 12px;
+    height: 12px;
+  }
+}

@@ -1,67 +1,97 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import PWABadge from "./PWABadge.tsx";
-import PWAInstallPrompt from "./components/PWAInstallPrompt.tsx";
-import OfflinePage from "./components/OfflinePage.tsx";
-import PWAStatus from "./components/PWAStatus.tsx";
-import PWARedirectHandler from "./components/PWARedirectHandler.tsx";
-import { pwaRedirect } from "./lib/pwa";
+import { BrowserRouter, Route, Routes } from "react-router";
 import "./App.css";
+import { Landing, Login } from "@/pages";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "./components/ui/sonner";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+import { AuthProvider } from "./context/auth-context";
+import { StudentWrapper } from "./components/protected-route-wrapper/student-wrapper";
+import StudentHome from "./pages/private/student/student-home";
+import { PublicRouteRedirector } from "./components/public-route-redirector";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    mutations: {
+      onError: (err: any) => {
+        let errorMsg = "Server Error";
+        console.log(err);
+
+        if (err instanceof AxiosError) {
+          const data = err.response?.data;
+          if ("logout" in data && data["logout"]) {
+            if ("teacher" in data && data["teacher"]) {
+              // TODO: logout teacher
+              // return of(authActions.teacherLogout());
+            } else if ("student" in data && data["student"]) {
+              // TODO: logout student
+              // return of(
+              //     authActions.removeUser({
+              //         data: null,
+              //     }),
+              // );
+            }
+          } else if (typeof data === "object") {
+            if ("msg" in data) {
+              errorMsg += ` :- ${data["msg"]}`;
+            } else if ("error" in data) {
+              errorMsg += ` :- ${data["error"]}`;
+            } else {
+              let errors: Record<string, any> = {};
+              for (const [key, value] of Object.entries(data)) {
+                if (value) {
+                  errors[key] = value;
+                }
+              }
+
+              if (Object.keys(errors).length) {
+                let key = Object.keys(errors)[0];
+                if (
+                  !Array.isArray(errors[key]) &&
+                  Object.keys(errors[key]).length
+                ) {
+                  let subKey = Object.keys(errors[key])[0];
+
+                  errorMsg += ` :- ${
+                    (errors[key] as any)[subKey][0]
+                  }(${key}.${subKey})`;
+                } else if (errors[key][0]) {
+                  errorMsg += ` :- ${errors[key][0]}(${key})`;
+                }
+              }
+            }
+          } else {
+            errorMsg += ":- Something went worng";
+          }
+        } else {
+          errorMsg = `Client Error :- ${err?.message}`;
+        }
+
+        toast.error(errorMsg);
+      },
+    },
+  },
+});
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href='https://vite.dev' target='_blank'>
-          <img src={"/favicon.svg"} className='logo' alt='sms-react logo' />
-        </a>
-        <a href='https://react.dev' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-      </div>
-      <h1>sms-react</h1>
-      <div className='card'>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>
-        Click on the Vite and React logos to learn more
-      </p>
-      
-      {/* Test buttons for PWA functionality */}
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
-        <button 
-          onClick={() => pwaRedirect.markAsInstalled()}
-          style={{ margin: '5px', padding: '8px 16px', background: '#004ab0', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-        >
-          Mark PWA as Installed
-        </button>
-        <button 
-          onClick={() => pwaRedirect.triggerRedirectPrompt()}
-          style={{ margin: '5px', padding: '8px 16px', background: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-        >
-          Test Redirect Prompt
-        </button>
-        <button 
-          onClick={() => pwaRedirect.resetRedirectState()}
-          style={{ margin: '5px', padding: '8px 16px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-        >
-          Reset Redirect State
-        </button>
-      </div>
-      
-      <PWABadge />
-      <PWAInstallPrompt />
-      <OfflinePage />
-      <PWAStatus />
-      <PWARedirectHandler />
-    </>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes>
+            <Route element={<PublicRouteRedirector />}>
+              <Route path='/' element={<Landing />} />
+              <Route path='/login' element={<Login />} />
+            </Route>
+            <Route path='/student' element={<StudentWrapper />}>
+              <Route path='home' element={<StudentHome />} />
+            </Route>
+          </Routes>
+        </AuthProvider>
+      </BrowserRouter>
+      <Toaster position='top-center' richColors closeButton />
+    </QueryClientProvider>
   );
 }
 

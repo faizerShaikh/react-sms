@@ -2,7 +2,6 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import { pwaRedirect } from "./lib/pwa";
 
 // Register service worker for PWA
 if ("serviceWorker" in navigator) {
@@ -11,11 +10,6 @@ if ("serviceWorker" in navigator) {
       .register("/sw.js")
       .then((registration) => {
         console.log("SW registered: ", registration);
-
-        // Check for PWA redirect after service worker is ready
-        setTimeout(() => {
-          pwaRedirect.checkAndRedirect();
-        }, 2000); // Wait 2 seconds for app to fully load
       })
       .catch((registrationError) => {
         console.log("SW registration failed: ", registrationError);
@@ -28,7 +22,6 @@ if ("serviceWorker" in navigator) {
 if (window.matchMedia("(display-mode: standalone)").matches) {
   // Running as PWA
   console.log("Running as PWA");
-  pwaRedirect.markAsInstalled();
 }
 
 // Listen for visibility change to detect when user returns from home screen
@@ -47,13 +40,6 @@ document.addEventListener("visibilitychange", () => {
           // Within 30 seconds
           // Ask user if they added the app
           setTimeout(() => {
-            const added = confirm(
-              "Did you just add the School Management System to your Home Screen?\n\n" +
-                "This helps us provide a better experience."
-            );
-            if (added) {
-              pwaRedirect.markAsInstalled();
-            }
             localStorage.removeItem("ios-install-attempt");
           }, 1000);
         }

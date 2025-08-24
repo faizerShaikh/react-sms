@@ -1,14 +1,17 @@
+import { cn } from "@/lib/utils";
 import * as React from "react";
 
 function Separator({
   orientation = "horizontal",
+  className,
   children,
 }: {
   orientation?: "horizontal" | "vertical";
+  className?: string;
   children?: React.ReactNode;
 }) {
   return (
-    <div className='flex items-center justify-center relative'>
+    <div className={cn("flex items-center justify-center relative", className)}>
       {orientation === "vertical" ? (
         <div className='h-full bg-gray-200 w-[0.0625rem] mx-4'>
           <span className='text-gray-500 px-2'>{children}</span>

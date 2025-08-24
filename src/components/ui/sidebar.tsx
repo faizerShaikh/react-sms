@@ -355,7 +355,7 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
 function SidebarSeparator({
   className,
   ...props
-}: React.ComponentProps<typeof Separator>) {
+}: React.ComponentProps<typeof Separator> & { className?: string }) {
   return (
     <Separator
       data-slot='sidebar-separator'

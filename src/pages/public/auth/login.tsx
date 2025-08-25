@@ -1,9 +1,11 @@
 import { ActionCard, Button } from "@/components";
 import { PowerdBy } from "@/components/powerd-by";
 import { schoolConfig } from "@/configs/app-config";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import * as yup from "yup";
 import { LoginForm } from "./components/login-form";
+import { useSearchParams } from "react-router";
+import { useAuth } from "@/context/auth-context";
 
 type Props = {};
 
@@ -19,6 +21,20 @@ const teacherLoginSchema = yup.object().shape({
 
 export function Login({}: Props) {
   const [userType, setUserType] = useState<string | null>(null);
+  const [params] = useSearchParams();
+  const {
+    state: { userData },
+  } = useAuth();
+
+  const isAddMore = useMemo(() => {
+    return !!(params.get("add_more") === "true" && userData);
+  }, [params, userData]);
+
+  useEffect(() => {
+    if (isAddMore) {
+      setUserType("Student");
+    }
+  }, [isAddMore]);
 
   return (
     <div className='sm:p-2 relative p-5 sm:w-[500px] h-screen flex flex-col mx-auto '>
@@ -50,6 +66,7 @@ export function Login({}: Props) {
       {userType !== null ? (
         <>
           <LoginForm
+            isAddMore={isAddMore}
             userType={userType || "Student"}
             schema={
               userType === "Student" ? studentLoginSchema : teacherLoginSchema
@@ -100,7 +117,7 @@ export function Login({}: Props) {
         </div>
       )}
 
-      <PowerdBy></PowerdBy>
+      <PowerdBy className='py-5 absolute bottom-0 left-1/2 -translate-x-1/2'></PowerdBy>
     </div>
   );
 }

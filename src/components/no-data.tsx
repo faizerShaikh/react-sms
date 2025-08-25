@@ -18,7 +18,7 @@ export function NoData({ message, className }: Props) {
           <g transform='translate(24 31.67)'>
             <ellipse
               fill='#f5f5f5'
-              fill-opacity='0.8'
+              fillOpacity='0.8'
               cx='67.797'
               cy='106.89'
               rx='67.797'

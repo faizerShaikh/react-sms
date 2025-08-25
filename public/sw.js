@@ -4,6 +4,8 @@
 // Install event - no caching
 self.addEventListener("install", (event) => {
   console.log("Service Worker installed");
+  // Skip waiting to activate immediately
+  self.skipWaiting();
 });
 
 // Fetch event - no caching, always fetch from network
@@ -63,5 +65,12 @@ self.addEventListener("notificationclick", (event) => {
 
   if (event.action === "explore") {
     event.waitUntil(clients.openWindow("/"));
+  }
+});
+
+// Handle messages from the main thread
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
   }
 });

@@ -42,7 +42,7 @@ export function Landing({}: Props) {
           Sign In
         </Button>
       </div>
-      <PowerdBy className='py-5'></PowerdBy>
+      <PowerdBy className='py-5 absolute bottom-0 left-1/2 -translate-x-1/2'></PowerdBy>
     </div>
   );
 }

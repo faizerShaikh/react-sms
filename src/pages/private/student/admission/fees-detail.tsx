@@ -77,7 +77,7 @@ export function FeesDetail({}: Props) {
           {selectedFeesData && (
             <ViewPaymentDetail
               selectedFeesData={selectedFeesData}
-              close={() => setSelectedFeesData(null)}
+              onClose={() => setSelectedFeesData(null)}
             />
           )}
 

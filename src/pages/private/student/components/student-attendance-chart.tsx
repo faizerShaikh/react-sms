@@ -80,6 +80,7 @@ export function StudentAttendanceChart({}: Props) {
               <SelectContent>
                 {academicMonths?.map((month: any) => (
                   <SelectItem
+                    key={month.month_name + month.year}
                     value={new Date(
                       `${month.year}-${month.month
                         .toString()

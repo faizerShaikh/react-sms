@@ -12,6 +12,8 @@
   "lang": "en",
   "dir": "ltr",
   "prefer_related_applications": false,
+  "display_override": ["window-controls-overlay"],
+  "features": ["Cross Platform", "fast", "simple"],
   "icons": [
     {
       "src": "pwa-64x64.png",

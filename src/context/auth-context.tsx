@@ -14,37 +14,40 @@ import { AuthStoreInterface, StudentDataInterface } from "@/interfaces";
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router";
 
-let userData = localStorage.getItem(CURRENT_USER_DATA)
-  ? JSON.parse(localStorage.getItem(CURRENT_USER_DATA)!)
-  : null;
-let usersData = localStorage.getItem(USERS_DATA)
-  ? JSON.parse(localStorage.getItem(USERS_DATA)!)
-  : null;
-let adminUserData = localStorage.getItem(ADMIN_USER_DATA)
-  ? JSON.parse(localStorage.getItem(ADMIN_USER_DATA)!)
-  : null;
-let userType = localStorage.getItem(USER_TYPE)
-  ? localStorage.getItem(USER_TYPE)
-  : null;
+const getInitialState = () => {
+  let userData = localStorage.getItem(CURRENT_USER_DATA)
+    ? JSON.parse(localStorage.getItem(CURRENT_USER_DATA)!)
+    : null;
+  let usersData = localStorage.getItem(USERS_DATA)
+    ? JSON.parse(localStorage.getItem(USERS_DATA)!)
+    : null;
+  let adminUserData = localStorage.getItem(ADMIN_USER_DATA)
+    ? JSON.parse(localStorage.getItem(ADMIN_USER_DATA)!)
+    : null;
+  let userType = localStorage.getItem(USER_TYPE)
+    ? localStorage.getItem(USER_TYPE)
+    : null;
 
-const initialState: AuthStoreInterface = {
-  isLoggedIn: !!userData,
-  userData: userType === "Student" ? userData : null,
-  teacherData: userType === "Teacher" ? userData : null,
-  userType,
-  usersData,
-  isAdminLoggedIn: !!adminUserData,
-  adminUserData: adminUserData,
-  menuItems: userType
-    ? typeof menus[userType] === "function"
-      ? menus[userType](userData)
-      : menus[userType]
-      ? menus[userType]
-      : []
-    : [],
-  forgotPasswordStep: 1,
-  forgotPasswordData: null,
-  isOTPValid: null,
+  const initialState: AuthStoreInterface = {
+    isLoggedIn: !!userData,
+    userData: userType === "Student" ? userData : null,
+    teacherData: userType === "Teacher" ? userData : null,
+    userType,
+    usersData,
+    isAdminLoggedIn: !!adminUserData,
+    adminUserData: adminUserData,
+    menuItems: userType
+      ? typeof menus[userType] === "function"
+        ? menus[userType](userData)
+        : menus[userType]
+        ? menus[userType]
+        : []
+      : [],
+    forgotPasswordStep: 1,
+    forgotPasswordData: null,
+    isOTPValid: null,
+  };
+  return initialState;
 };
 
 const AuthContext = createContext<{
@@ -65,8 +68,11 @@ const AuthContext = createContext<{
   setForgotPasswordStep: (data: number) => void;
   setForgotPasswordData: (data: any) => void;
   setIsOTPValid: (data: boolean) => void;
+  removeUser: (data: StudentDataInterface | null) => void;
+  logout: () => void;
+  setCurrentUser: (data: StudentDataInterface) => void;
 }>({
-  state: initialState,
+  state: getInitialState(),
   setState: () => {},
   studentLoginSuccess: () => {},
   teacherLoginSuccess: () => {},
@@ -81,10 +87,13 @@ const AuthContext = createContext<{
   setForgotPasswordStep: () => {},
   setForgotPasswordData: () => {},
   setIsOTPValid: () => {},
+  removeUser: () => {},
+  logout: () => {},
+  setCurrentUser: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, setState] = useState<AuthStoreInterface>(initialState);
+  const [state, setState] = useState<AuthStoreInterface>(getInitialState());
 
   const navigate = useNavigate();
 
@@ -96,7 +105,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       admissionNumber: response.adm_number,
     };
 
-    let usersData = localStorage.getItem(USERS_DATA) as any;
+    let usersData = JSON.parse(localStorage.getItem(USERS_DATA)!) || [];
 
     if (usersData && usersData.length) {
       if (
@@ -231,6 +240,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
+    setState(getInitialState());
+  };
+
+  const removeUser = (data: StudentDataInterface | null) => {
+    let currentUser = data ? data : state.userData;
+    let usersData = state.usersData ? state.usersData : [];
+    usersData = usersData.filter(
+      (profile) => profile.admissionNumber !== currentUser!.admissionNumber
+    );
+    localStorage.setItem(USERS_DATA, JSON.stringify(usersData));
+
+    if (!usersData.length) {
+      return logout();
+    }
+
+    setState({
+      ...state,
+      userData: usersData[0],
+      usersData: usersData,
+    });
+  };
+
+  const setCurrentUser = (data: StudentDataInterface) => {
+    localStorage.setItem(CURRENT_USER_DATA, JSON.stringify(data));
+    localStorage.setItem(USER_TOKEN, data.token);
+    setState({
+      ...state,
+      userData: data,
+    });
+    navigate("/student/home");
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -249,6 +293,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setForgotPasswordStep,
         setForgotPasswordData,
         setIsOTPValid,
+        removeUser,
+        logout,
+        setCurrentUser,
       }}
     >
       {children}

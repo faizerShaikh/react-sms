@@ -20,13 +20,13 @@ export function Container({ children }: Props) {
     <div className='flex flex-col h-screen max-w-[959px] mx-auto relative'>
       {shouldShowHeader && (
         <div className='px-5 mb-5 py-3 bg-primary rounded-bl-[2rem] header flex justify-between items-center gap-3 w-full absolute top-0 left-0 z-10'>
-          <div className='flex justify-start items-center gap-3'>
+          <div className='flex justify-start items-center gap-3 w-full'>
             <i
               className='ph ph-caret-left text-2xl text-gray-50'
-              onClick={() => {}}
+              onClick={() => window.history.back()}
             ></i>
-            <div className='flex flex-col'>
-              <h1 className='font-satoshi text-xl text-gray-50 truncate w-52'>
+            <div className='flex flex-col w-full'>
+              <h1 className='font-satoshi text-xl text-gray-50 truncate max-w-72'>
                 👋 Hey {userData?.name},
               </h1>
               <p className='font-satoshi text-sm text-gray-100'>
@@ -34,9 +34,13 @@ export function Container({ children }: Props) {
               </p>
             </div>
           </div>
-          <Link to={"/student/my-profile"}>
+          <Link
+            to={"/student/my-profile"}
+            className='w-13 h-13 flex justify-center items-center border border-white rounded-full p-1'
+          >
             <Avatar className='block w-12 h-12'>
               <AvatarImage
+                className='object-cover object-center'
                 src={`${import.meta.env.VITE_MEDIA_FOLDER_URL}${
                   userData?.photo
                 }`}

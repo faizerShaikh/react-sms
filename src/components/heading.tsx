@@ -11,14 +11,14 @@ export function Heading({ children, variant = "primary" }: Props) {
       {variant === "primary" && (
         <span className='absolute top-0 left-0 h-full rounded-l-sm bg-primary w-1' />
       )}
-      <p
+      <div
         className={cn("font-satoshi lg:text-lg text-sm font-bold", {
           "pl-4 py-1 text-heading uppercase": variant === "primary",
           "py-2 text-primary": variant === "secondary",
         })}
       >
         <span className='py-1 uppercase'>{children}</span>
-      </p>
+      </div>
     </div>
   );
 }

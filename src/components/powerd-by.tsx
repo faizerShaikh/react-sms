@@ -8,7 +8,7 @@ export function PowerdBy({ className }: PowerdByProps) {
   return (
     <p
       className={cn(
-        `w-full h-full text-neutral-500 font-medium text-center flex justify-center items-center gap-1 bg-white`,
+        `w-full text-neutral-500 font-medium text-center flex justify-center items-center gap-1 bg-white`,
         className
       )}
     >

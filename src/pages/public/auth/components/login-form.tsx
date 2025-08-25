@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/form-components";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Form } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/configs/axios";
@@ -15,10 +15,12 @@ type Props = {
   userType: string;
   schema: any;
   resetForm: () => void;
+  isAddMore: boolean;
 };
 
-export function LoginForm({ userType, schema, resetForm }: Props) {
+export function LoginForm({ userType, schema, resetForm, isAddMore }: Props) {
   const { studentLoginSuccess } = useAuth();
+  const navigate = useNavigate();
 
   const form = useForm<yup.InferType<typeof schema>>({
     resolver: yupResolver(schema),
@@ -94,12 +96,18 @@ export function LoginForm({ userType, schema, resetForm }: Props) {
           Sign In
         </Button>
         <Button
-          onClick={resetForm}
+          onClick={() => {
+            if (isAddMore) {
+              navigate("/student/home");
+            } else {
+              resetForm();
+            }
+          }}
           variant='primary-outlined'
           type='button'
           size='large'
         >
-          Back
+          Back {isAddMore && "to Home"}
         </Button>
       </form>
     </Form>

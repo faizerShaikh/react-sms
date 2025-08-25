@@ -18,6 +18,19 @@ export default defineConfig({
         config: true,
       },
 
+      // Enable update detection
+      includeAssets: [
+        "favicon.ico",
+        "apple-touch-icon-180x180.png",
+        "masked-icon.svg",
+      ],
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: false, // Don't skip waiting automatically, let user choose
+      },
+
       manifest: {
         name: "School Management System",
         short_name: "SMS",
@@ -50,12 +63,6 @@ export default defineConfig({
             purpose: "maskable",
           },
         ],
-      },
-
-      workbox: {
-        globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
-        cleanupOutdatedCaches: true,
-        clientsClaim: true,
       },
 
       devOptions: {

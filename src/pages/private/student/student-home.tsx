@@ -32,13 +32,11 @@ export default function StudentHome({}: Props) {
     enabled: !!userData?.admission_id,
   });
 
-  console.log(admissionFeesData);
-
   return (
     <div className='flex flex-col gap-5'>
       {userData && (
         <div className='flex flex-col gap-3 relative z-10'>
-          <Alert variant='info' className='flex items-start gap-3'>
+          <Alert variant='info' className='flex items-start gap-3 py-2 px-2'>
             <div>
               <i className='ph-bold ph-arrow-square-out'></i>
             </div>
@@ -56,7 +54,7 @@ export default function StudentHome({}: Props) {
               </span>
             </div>
           </Alert>
-          <Alert variant='info' className='flex items-start gap-3'>
+          <Alert variant='info' className='flex items-start gap-3 py-2 px-2'>
             <div>
               <i className='ph-bold ph-arrow-square-out'></i>
             </div>

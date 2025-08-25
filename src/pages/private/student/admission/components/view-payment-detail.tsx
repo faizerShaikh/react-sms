@@ -1,22 +1,10 @@
+import { MobileResponsiveDialog } from "@/components";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  Dialog,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
 import { api } from "@/configs/axios";
 import { FRONTEND_DATE_FORMAT, FRONTEND_DATE_TIME_FORMAT } from "@/constants";
 import { useAuth } from "@/context/auth-context";
-import { useIsMobile } from "@/hooks/use-mobile";
 import {
   AdmissionInstalmentInterface,
   AdmissionOtherChargesInterface,
@@ -31,76 +19,42 @@ type Props = {
   selectedFeesData:
     | AdmissionInstalmentInterface
     | AdmissionOtherChargesInterface;
-  close: () => void;
+  onClose: () => void;
 };
 
-export function ViewPaymentDetail({ selectedFeesData, close }: Props) {
-  const isDesktop = !useIsMobile();
-
+export function ViewPaymentDetail({ selectedFeesData, onClose }: Props) {
   const isInstalment = "installment_no" in selectedFeesData;
-  if (isDesktop) {
-    return (
-      <Dialog
-        open={true}
-        onOpenChange={(val) => {
-          if (!val) {
-            close();
-          }
-        }}
-      >
-        <DialogContent className='sm:max-w-[425px]'>
-          <DialogHeader>
-            <DialogTitle>
-              {isInstalment
-                ? getWithOrdinalSuffix(selectedFeesData.installment_no) +
-                  " Instalment"
-                : selectedFeesData.description}
-            </DialogTitle>
-          </DialogHeader>
-          <ViewInstalmentPaymentDetail
-            selectedFeesData={selectedFeesData}
-            close={close}
-          />
-        </DialogContent>
-      </Dialog>
-    );
-  }
+
   return (
-    <Drawer
-      open={true}
-      onOpenChange={(val) => {
-        if (!val) {
-          close();
-        }
-      }}
+    <MobileResponsiveDialog
+      autoOpen={true}
+      heading={
+        isInstalment
+          ? getWithOrdinalSuffix(selectedFeesData.installment_no) +
+            " Instalment"
+          : selectedFeesData.description
+      }
+      onClose={onClose}
     >
-      <DrawerContent className='p-0'>
-        <DrawerHeader className='text-left'>
-          <DrawerTitle>
-            {isInstalment
-              ? getWithOrdinalSuffix(selectedFeesData.installment_no) +
-                " Instalment"
-              : selectedFeesData.description}
-          </DrawerTitle>
-        </DrawerHeader>
+      {({ onClose }) => (
         <ViewInstalmentPaymentDetail
           selectedFeesData={selectedFeesData}
-          close={close}
+          onClose={onClose}
         />
-      </DrawerContent>
-    </Drawer>
+      )}
+    </MobileResponsiveDialog>
   );
 }
 
 function ViewInstalmentPaymentDetail({
   className,
   selectedFeesData,
-  close,
+  onClose,
 }: React.ComponentProps<"div"> & {
   selectedFeesData:
     | AdmissionInstalmentInterface
     | AdmissionOtherChargesInterface;
-  close: () => void;
+  onClose: () => void;
 }) {
   const onlinePaymentEnabled = false;
   const isInstalment = "installment_no" in selectedFeesData;
@@ -137,7 +91,7 @@ function ViewInstalmentPaymentDetail({
   });
 
   return (
-    <div className={cn(className, "md:p-0 p-5")}>
+    <div className={cn(className, "md:p-0 p-5 !pt-0")}>
       {onlinePaymentEnabled && (
         <Alert className='block mt-3'>
           <i className='ph-bold ph-info'></i>
@@ -256,7 +210,7 @@ function ViewInstalmentPaymentDetail({
           variant='outline'
           className='font-normal w-auto rounded-md'
           size={"large"}
-          onClick={() => close()}
+          onClick={() => onClose()}
         >
           Close
         </Button>

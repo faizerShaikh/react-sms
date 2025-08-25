@@ -11,6 +11,9 @@ import { StudentWrapper } from "./components/protected-route-wrapper/student-wra
 import StudentHome from "./pages/private/student/student-home";
 import { PublicRouteRedirector } from "./components/public-route-redirector";
 import { FeesDetail } from "./pages/private/student/admission/fees-detail";
+import { MyProfile } from "./pages/private/student/my-profile";
+import { PWAInstallButton } from "./components/pwa-install-button";
+import { PWAUpdateNotification } from "./components/pwa-update-notification";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -87,6 +90,7 @@ function App() {
             </Route>
             <Route path='/student' element={<StudentWrapper />}>
               <Route path='home' element={<StudentHome />} />
+              <Route path='my-profile' element={<MyProfile />} />
               <Route path='admission'>
                 <Route path='fees' element={<FeesDetail />} />
               </Route>
@@ -95,6 +99,8 @@ function App() {
         </AuthProvider>
       </BrowserRouter>
       <Toaster position='top-center' richColors closeButton />
+      <PWAInstallButton />
+      <PWAUpdateNotification />
     </QueryClientProvider>
   );
 }

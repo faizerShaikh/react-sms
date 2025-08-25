@@ -9,7 +9,6 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "@/configs/axios";
 import { StudentDataInterface, StudentLoginInterface } from "@/interfaces";
 import { useAuth } from "@/context/auth-context";
-import { ImSpinner8 } from "react-icons/im";
 import { Loader2 } from "lucide-react";
 
 type Props = {

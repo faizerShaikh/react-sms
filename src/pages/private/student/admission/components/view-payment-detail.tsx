@@ -1,4 +1,3 @@
-import { Heading } from "@/components";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,13 +6,10 @@ import {
   DialogHeader,
   DialogTitle,
   Dialog,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -24,7 +20,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import {
   AdmissionInstalmentInterface,
   AdmissionOtherChargesInterface,
-  ResponseInterface,
 } from "@/interfaces";
 import { cn, downloadFile, getWithOrdinalSuffix } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";

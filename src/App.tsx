@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/auth-context";
 import { StudentWrapper } from "./components/protected-route-wrapper/student-wrapper";
 import StudentHome from "./pages/private/student/student-home";
 import { PublicRouteRedirector } from "./components/public-route-redirector";
+import { FeesDetail } from "./pages/private/student/admission/fees-detail";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -86,6 +87,9 @@ function App() {
             </Route>
             <Route path='/student' element={<StudentWrapper />}>
               <Route path='home' element={<StudentHome />} />
+              <Route path='admission'>
+                <Route path='fees' element={<FeesDetail />} />
+              </Route>
             </Route>
           </Routes>
         </AuthProvider>

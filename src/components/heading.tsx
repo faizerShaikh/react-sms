@@ -17,7 +17,7 @@ export function Heading({ children, variant = "primary" }: Props) {
           "py-2 text-primary": variant === "secondary",
         })}
       >
-        <span className='pl-4 py-1 text-heading uppercase'>{children}</span>
+        <span className='py-1 uppercase'>{children}</span>
       </p>
     </div>
   );

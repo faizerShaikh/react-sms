@@ -25,7 +25,7 @@ const config: SchoolConfigCollection = {
     formats: {
       "date-input-format": "dd/mm/yy",
       "time-input-format": "12",
-      "date-format": "d MMM' y",
+      "date-format": "d MMM yyy",
       "time-format": "h:mm a",
       "date-time-format": "d MMM' y, h:mm a",
     },

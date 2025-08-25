@@ -24,6 +24,7 @@ export interface AdmissionOtherChargesInterface {
   is_value_updated_to_plan: boolean;
   admission_fees_plan: string;
   payment_detail: PaymentDetailsInterface;
+  admission: AdmissionInterface;
 }
 
 export interface AdmissionInstalmentInterface extends BaseObjectInterface {
@@ -44,6 +45,7 @@ export interface AdmissionInstalmentInterface extends BaseObjectInterface {
   total_amount: number;
   total_amount_breakup: AdmissionOtherChargesInterface[];
   payment_detail: PaymentDetailsInterface;
+  admission: AdmissionInterface;
 }
 
 export enum PaymentMethodEnum {

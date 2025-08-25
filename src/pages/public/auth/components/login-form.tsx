@@ -10,6 +10,7 @@ import { api } from "@/configs/axios";
 import { StudentDataInterface, StudentLoginInterface } from "@/interfaces";
 import { useAuth } from "@/context/auth-context";
 import { ImSpinner8 } from "react-icons/im";
+import { Loader2 } from "lucide-react";
 
 type Props = {
   userType: string;
@@ -90,7 +91,7 @@ export function LoginForm({ userType, schema, resetForm }: Props) {
           size='large'
           disabled={isPending}
         >
-          {isPending && <ImSpinner8 className='w-4 h-4 mr-2' />}
+          {isPending && <Loader2 className='animate-spin' />}
           Sign In
         </Button>
         <Button

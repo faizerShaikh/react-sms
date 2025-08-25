@@ -4,3 +4,4 @@ export * from "./powerd-by";
 export * from "./dashboard-card";
 export * from "./heading";
 export * from "./no-data";
+export * from "./mobile-header";

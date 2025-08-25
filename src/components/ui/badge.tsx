@@ -20,7 +20,7 @@ const badgeVariants = cva(
         warning:
           "border-transparent bg-yellow-100 text-yellow-700 [a&]:hover:bg-yellow-500/90 focus-visible:ring-yellow-500/20 dark:focus-visible:ring-yellow-500/40 dark:bg-yellow-500/60 after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:left-2 after:w-2 after:h-2 after:bg-yellow-700 after:rounded-full relative pl-5",
         success:
-          "border-transparent bg-green-100 text-green-700 [a&]:hover:bg-green-500/90 focus-visible:ring-green-500/20 dark:focus-visible:ring-green-500/40 dark:bg-green-500/60 after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:left-2 after:w-2 after:h-2 after:bg-green-700 after:rounded-full relative pl-5",
+          "border-transparent bg-teal-100 text-teal-700 [a&]:hover:bg-teal-500/90 focus-visible:ring-teal-500/20 dark:focus-visible:ring-teal-500/40 dark:bg-teal-500/60 after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:left-2 after:w-2 after:h-2 after:bg-teal-700 after:rounded-full relative pl-5",
       },
     },
     defaultVariants: {

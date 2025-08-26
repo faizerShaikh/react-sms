@@ -65,14 +65,15 @@ export function StudentHome({}: Props) {
       {userData && pendingTaks.length > 0 && (
         <Accordion type='single' collapsible className='z-10'>
           <AccordionItem value='item-1'>
-            <AccordionTrigger>
+            <AccordionTrigger className='border-b py-2 rounded-none'>
               <Heading>
-                There{' '}
-                <span className='font-semibold'>{pendingTaks.length}</span>{' '}
-                pending tasks for you
+                <div className='flex justify-between items-center w-full gap-3'>
+                  <div>Complete pending tasks</div>
+                  <Badge variant='primary'>{pendingTaks.length}</Badge>
+                </div>
               </Heading>
             </AccordionTrigger>
-            <AccordionContent className='flex flex-col gap-3'>
+            <AccordionContent className='flex flex-col gap-3 pt-1'>
               {pendingTaks.map((task) => (
                 <Alert
                   variant='info'

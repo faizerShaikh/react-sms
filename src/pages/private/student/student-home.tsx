@@ -1,30 +1,37 @@
-import { DashboardCard, Heading } from "@/components";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { api } from "@/configs/axios";
-import { useAuth } from "@/context/auth-context";
-import { AdmissionInstalmentInterface } from "@/interfaces";
-import { getWithOrdinalSuffix } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router";
-import { StudentAttendanceChart } from "./components/student-attendance-chart";
+import { DashboardCard, Heading } from '@/components';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { api } from '@/configs/axios';
+import { useAuth } from '@/context/auth-context';
+import { AdmissionInstalmentInterface } from '@/interfaces';
+import { getWithOrdinalSuffix } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router';
+import { StudentAttendanceChart } from './components/student-attendance-chart';
 type Props = {};
 
-export default function StudentHome({}: Props) {
+export function StudentHome({}: Props) {
   const {
     state: { userData },
   } = useAuth();
   const navigate = useNavigate();
 
   const { data: myAnnouncementsCount } = useQuery({
-    queryKey: ["myAnnouncementsCount", userData?.student_id],
+    queryKey: ['myAnnouncementsCount', userData?.student_id],
     queryFn: () =>
-      api.get("/app/announcements/my/unread_count/").then((res) => res.data),
+      api.get('/app/announcements/my/unread_count/').then((res) => res.data),
     enabled: !!userData,
   });
 
   const { data: admissionFeesData } = useQuery({
-    queryKey: ["admissionFeesData", userData?.admission_id],
+    queryKey: ['admissionFeesData', userData?.admission_id],
     queryFn: () =>
       api
         .get(`/schools/admission-fees-instalment/${userData?.admission_id}/`)
@@ -32,47 +39,63 @@ export default function StudentHome({}: Props) {
     enabled: !!userData?.admission_id,
   });
 
+  const pendingTaks = useMemo(() => {
+    let tasks = [];
+    if (!userData?.is_id_card_filled) {
+      tasks.push({
+        title: 'Fill ID Card Form',
+        description:
+          'Please complete the ID card form to ensure accurate and up-to-date records. Your cooperation is appreciated.',
+        link: '/student/admission/id-card-form',
+      });
+    }
+    if (!userData?.is_document_added) {
+      tasks.push({
+        title: 'Upload Student Documents',
+        description:
+          'Please Upload Student Docuents to ensure accurate and up-to-date records. Your cooperation is appreciated.',
+        link: '/student/admission/documents',
+      });
+    }
+    return tasks;
+  }, [userData]);
+
   return (
     <div className='flex flex-col gap-5'>
-      {userData && (
-        <div className='flex flex-col gap-3 relative z-10'>
-          <Alert variant='info' className='flex items-start gap-3 py-2 px-2'>
-            <div>
-              <i className='ph-bold ph-arrow-square-out'></i>
-            </div>
-            <div>
-              <AlertTitle>Fill ID Card Form</AlertTitle>
-              <AlertDescription>
-                Please complete the ID card form to ensure accurate and
-                up-to-date records. Your cooperation is appreciated.
-              </AlertDescription>{" "}
-              <span
-                className='underline cursor-pointer'
-                onClick={() => navigate("/student/admission/id-card-form")}
-              >
-                Click Here
-              </span>
-            </div>
-          </Alert>
-          <Alert variant='info' className='flex items-start gap-3 py-2 px-2'>
-            <div>
-              <i className='ph-bold ph-arrow-square-out'></i>
-            </div>
-            <div>
-              <AlertTitle>Upload Student Documents</AlertTitle>
-              <AlertDescription>
-                Please Upload Student Docuents to ensure accurate and up-to-date
-                records. Your cooperation is appreciated.
-              </AlertDescription>
-              <span
-                className='underline cursor-pointer'
-                onClick={() => navigate("/student/admission/documents")}
-              >
-                Click Here
-              </span>
-            </div>
-          </Alert>
-        </div>
+      {userData && pendingTaks.length > 0 && (
+        <Accordion type='single' collapsible className='z-10'>
+          <AccordionItem value='item-1'>
+            <AccordionTrigger>
+              <Heading>
+                There{' '}
+                <span className='font-semibold'>{pendingTaks.length}</span>{' '}
+                pending tasks for you
+              </Heading>
+            </AccordionTrigger>
+            <AccordionContent className='flex flex-col gap-3'>
+              {pendingTaks.map((task) => (
+                <Alert
+                  variant='info'
+                  className='flex items-start gap-3 py-2 px-2'
+                >
+                  <div>
+                    <i className='ph-bold ph-arrow-square-out'></i>
+                  </div>
+                  <div>
+                    <AlertTitle>{task.title}</AlertTitle>
+                    <AlertDescription>{task.description}</AlertDescription>{' '}
+                    <span
+                      className='underline cursor-pointer'
+                      onClick={() => navigate(task.link)}
+                    >
+                      Click Here
+                    </span>
+                  </div>
+                </Alert>
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       )}
 
       <div className='grid grid-cols-2 lg:grid-cols-4 gap-3'>
@@ -113,13 +136,12 @@ export default function StudentHome({}: Props) {
                   <div className='border border-solid border-gray-100 rounded-lg py-2 px-3 cursor-pointer'>
                     <div className='text-active font-satoshi text-base font-bold flex justify-between items-center gap-3 mb-2'>
                       <span>
-                        {" "}
-                        {getWithOrdinalSuffix(
-                          item.installment_no
-                        )} Instalment{" "}
+                        {' '}
+                        {getWithOrdinalSuffix(item.installment_no)}{' '}
+                        Instalment{' '}
                       </span>
-                      <Badge variant={!item.is_paid ? "warning" : "success"}>
-                        {item.is_paid ? "Paid" : "Due"}
+                      <Badge variant={!item.is_paid ? 'warning' : 'success'}>
+                        {item.is_paid ? 'Paid' : 'Due'}
                       </Badge>
                     </div>
                     <div className='text-placeholder text-sm font-medium font-satoshi'>
@@ -127,7 +149,7 @@ export default function StudentHome({}: Props) {
                     </div>
                   </div>
                 </Link>
-              )
+              ),
             )}
 
             <Link to='/student/admission/fees'>

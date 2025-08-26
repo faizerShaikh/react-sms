@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import { Download } from "lucide-react";
-import { MobileResponsiveDialog } from "./mobile-responsive-dialog";
-import { Button } from "./ui";
-import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from '@/context/auth-context';
+import { cn } from '@/lib/utils';
+import { Download } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { MobileResponsiveDialog } from './mobile-responsive-dialog';
+import { Button } from './ui';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: string[];
   readonly userChoice: Promise<{
-    outcome: "accepted" | "dismissed";
+    outcome: 'accepted' | 'dismissed';
     platform: string;
   }>;
   prompt(): Promise<void>;
@@ -29,7 +29,7 @@ export const PWAInstallButton = () => {
     // Check if already installed as PWA
     const checkStandalone = () => {
       const standalone = window.matchMedia(
-        "(display-mode: standalone)"
+        '(display-mode: standalone)',
       ).matches;
       setIsStandalone(standalone);
 
@@ -62,7 +62,7 @@ export const PWAInstallButton = () => {
     const handleAppInstalled = () => {
       setShowInstallButton(false);
       setDeferredPrompt(null);
-      console.log("PWA was installed");
+      console.log('PWA was installed');
     };
 
     // Listen for display mode changes
@@ -70,21 +70,21 @@ export const PWAInstallButton = () => {
       checkStandalone();
     };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    window.addEventListener("appinstalled", handleAppInstalled);
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
     window
-      .matchMedia("(display-mode: standalone)")
-      .addEventListener("change", handleDisplayModeChange);
+      .matchMedia('(display-mode: standalone)')
+      .addEventListener('change', handleDisplayModeChange);
 
     return () => {
       window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt,
       );
-      window.removeEventListener("appinstalled", handleAppInstalled);
+      window.removeEventListener('appinstalled', handleAppInstalled);
       window
-        .matchMedia("(display-mode: standalone)")
-        .removeEventListener("change", handleDisplayModeChange);
+        .matchMedia('(display-mode: standalone)')
+        .removeEventListener('change', handleDisplayModeChange);
     };
   }, []);
 
@@ -93,17 +93,17 @@ export const PWAInstallButton = () => {
       // Show iOS instructions
       setShowInstructions(true);
       // Store timestamp for iOS install attempt
-      localStorage.setItem("ios-install-attempt", Date.now().toString());
+      localStorage.setItem('ios-install-attempt', Date.now().toString());
     } else if (deferredPrompt) {
       // Android installation
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
 
-      if (outcome === "accepted") {
-        console.log("User accepted the install prompt");
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt');
         setShowInstallButton(false);
       } else {
-        console.log("User dismissed the install prompt");
+        console.log('User dismissed the install prompt');
       }
 
       setDeferredPrompt(null);
@@ -125,10 +125,10 @@ export const PWAInstallButton = () => {
       <button
         onClick={handleInstallClick}
         className={cn(
-          "fixed bottom-6 right-6 bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-full p-4 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 z-[1003] cursor-pointer shadow-2xl",
+          'fixed bottom-6 right-6 bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-full p-4 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 z-[100] cursor-pointer shadow-2xl',
           {
-            "bottom-22": isLoggedIn,
-          }
+            'bottom-22': isLoggedIn,
+          },
         )}
         title='Install School Management System'
         aria-label='Install School Management System'
@@ -150,8 +150,8 @@ export const PWAInstallButton = () => {
 
             <p className='text-heading font-medium text-sm font-satoshi text-center'>
               {isIOS
-                ? "To install this app on your iPhone or iPad:"
-                : "Click the install button to add this app to your home screen"}
+                ? 'To install this app on your iPhone or iPad:'
+                : 'Click the install button to add this app to your home screen'}
             </p>
 
             {isIOS ? (
@@ -161,7 +161,7 @@ export const PWAInstallButton = () => {
                     1
                   </span>
                   <p className='text-gray-700 text-sm'>
-                    Tap the <strong>Share</strong> button{" "}
+                    Tap the <strong>Share</strong> button{' '}
                     <span className='text-blue-600'>⎋</span> in your browser
                   </p>
                 </div>

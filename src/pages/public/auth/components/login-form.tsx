@@ -45,9 +45,6 @@ export function LoginForm({ userType, schema, resetForm, isAddMore }: Props) {
         token: response.token,
       });
     },
-    onError(error: any) {
-      console.log(error, "<=====error");
-    },
   });
   const onSubmit = (data: any) => {
     login(data);

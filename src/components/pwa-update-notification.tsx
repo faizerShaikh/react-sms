@@ -9,9 +9,15 @@ export const PWAUpdateNotification = () => {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
+  const [hasTriggeredUpdate, setHasTriggeredUpdate] = useState(false);
   const {
     state: { isLoggedIn },
   } = useAuth();
+
+  // Don't run update detection in development mode
+  if (import.meta.env.DEV) {
+    return null;
+  }
 
   useEffect(() => {
     let registration: ServiceWorkerRegistration | null = null;
@@ -34,7 +40,8 @@ export const PWAUpdateNotification = () => {
                 newWorker.addEventListener("statechange", () => {
                   if (
                     newWorker.state === "installed" &&
-                    navigator.serviceWorker.controller
+                    navigator.serviceWorker.controller &&
+                    registration?.waiting // Only show if there's a waiting worker
                   ) {
                     // New service worker is installed and ready
                     setUpdateAvailable(true);
@@ -49,8 +56,14 @@ export const PWAUpdateNotification = () => {
               setUpdateAvailable(false);
               setShowUpdateDialog(false);
               setIsUpdating(false);
-              // Reload the page to apply updates
-              window.location.reload();
+              // Only reload if we actually applied an update
+              if (hasTriggeredUpdate) {
+                setHasTriggeredUpdate(false);
+                // Small delay to ensure state is updated
+                setTimeout(() => {
+                  window.location.reload();
+                }, 100);
+              }
             });
           }
         } catch (error) {
@@ -78,6 +91,7 @@ export const PWAUpdateNotification = () => {
 
   const handleUpdate = async () => {
     setIsUpdating(true);
+    setHasTriggeredUpdate(true);
 
     if ("serviceWorker" in navigator) {
       try {
@@ -89,6 +103,7 @@ export const PWAUpdateNotification = () => {
       } catch (error) {
         console.error("Error applying update:", error);
         setIsUpdating(false);
+        setHasTriggeredUpdate(false);
       }
     }
   };
@@ -97,8 +112,8 @@ export const PWAUpdateNotification = () => {
     setShowUpdateDialog(false);
   };
 
-  // Don't show if no update available
-  if (!updateAvailable) {
+  // Don't show if no update available or if we're in a problematic state
+  if (!updateAvailable || hasTriggeredUpdate) {
     return null;
   }
 

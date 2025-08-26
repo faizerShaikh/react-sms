@@ -1,20 +1,20 @@
-import { Heading, MobileHeader } from "@/components";
-import { Alert, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { api } from "@/configs/axios";
-import { FRONTEND_DATE_FORMAT } from "@/constants";
-import { useAuth } from "@/context/auth-context";
+import { Heading, MobileHeader } from '@/components';
+import { Alert, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { api } from '@/configs/axios';
+import { FRONTEND_DATE_FORMAT } from '@/constants';
+import { useAuth } from '@/context/auth-context';
 import {
   AdmissionFeesInterface,
   AdmissionInstalmentInterface,
   AdmissionOtherChargesInterface,
-} from "@/interfaces";
-import { getWithOrdinalSuffix } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
-import { formatDate } from "date-fns";
-import { ViewPaymentMethodDetails } from "./components/view-payment-method-details";
-import { ViewPaymentDetail } from "./components/view-payment-detail";
-import { useState } from "react";
+} from '@/interfaces';
+import { getWithOrdinalSuffix } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import { formatDate } from 'date-fns';
+import { useState } from 'react';
+import { ViewPaymentDetail } from './components/view-payment-detail';
+import { ViewPaymentMethodDetails } from './components/view-payment-method-details';
 
 type Props = {};
 
@@ -27,11 +27,11 @@ export function FeesDetail({}: Props) {
     AdmissionInstalmentInterface | AdmissionOtherChargesInterface | null
   >(null);
   const { data: admissionFeesData } = useQuery({
-    queryKey: ["admissionFeesData", userData?.admission_id],
+    queryKey: ['admissionFeesData', userData?.admission_id],
     queryFn: () =>
       api
         .get<AdmissionFeesInterface>(
-          `/schools/admission-fees-instalment/${userData?.admission_id}/`
+          `/schools/admission-fees-instalment/${userData?.admission_id}/`,
         )
         .then((res) => res.data),
     enabled: !!userData?.admission_id,
@@ -43,7 +43,7 @@ export function FeesDetail({}: Props) {
     const createdDate = new Date(
       currentYear,
       item.due_in_month - 1,
-      item.due_date
+      item.due_date,
     );
     return formatDate(createdDate, FRONTEND_DATE_FORMAT);
   }
@@ -100,7 +100,7 @@ export function FeesDetail({}: Props) {
                 {admissionFeesData
                   ? admissionFeesData?.total_amount +
                     admissionFeesData?.deposit_amount
-                  : "-"}
+                  : '-'}
               </p>
             </div>
           </div>
@@ -111,6 +111,7 @@ export function FeesDetail({}: Props) {
           <div className='flex flex-col items-start self-stretch gap-2 px-2'>
             {admissionFeesData?.admission_other_charges?.map((item) => (
               <div
+                key={item.id}
                 className='flex justify-between items-start w-full border-b pb-2 border-0 border-solid border-gray-100 cursor-pointer'
                 onClick={() => setSelectedFeesData(item)}
               >
@@ -126,8 +127,8 @@ export function FeesDetail({}: Props) {
                   <p className='font-satoshi m-0 text-sm text-end text-gray-900 font-bold'>
                     &#8377; {item.amount}
                   </p>
-                  <Badge variant={!item.is_paid ? "warning" : "success"}>
-                    {item.is_paid ? "Paid" : "Due"}
+                  <Badge variant={!item.is_paid ? 'warning' : 'success'}>
+                    {item.is_paid ? 'Paid' : 'Due'}
                   </Badge>
                 </div>
               </div>
@@ -149,6 +150,7 @@ export function FeesDetail({}: Props) {
           <div className='flex flex-col items-start self-stretch gap-2 px-2'>
             {admissionFeesData?.admission_instalments?.map((item) => (
               <div
+                key={item.id}
                 className='flex justify-between items-start w-full border-b py-2 border-0 border-solid border-gray-100 cursor-pointer'
                 onClick={() => setSelectedFeesData(item)}
               >
@@ -167,8 +169,8 @@ export function FeesDetail({}: Props) {
                   <span className='text-primary text-xs font-satoshi'>
                     (
                     {item.is_first_instalment
-                      ? "Pay after admission"
-                      : "Before " + getFormatedDate(item)}
+                      ? 'Pay after admission'
+                      : 'Before ' + getFormatedDate(item)}
                     )
                   </span>
                 </div>
@@ -177,8 +179,8 @@ export function FeesDetail({}: Props) {
                     &#8377;
                     {item.total_amount}
                   </p>
-                  <Badge variant={!item.is_paid ? "warning" : "success"}>
-                    {item.is_paid ? "Paid" : "Due"}
+                  <Badge variant={!item.is_paid ? 'warning' : 'success'}>
+                    {item.is_paid ? 'Paid' : 'Due'}
                   </Badge>
                 </div>
               </div>

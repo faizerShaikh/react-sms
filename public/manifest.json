@@ -10,10 +10,21 @@
   "orientation": "portrait-primary",
   "categories": ["education", "productivity", "utilities"],
   "lang": "en",
+  "id": "/",
   "dir": "ltr",
   "prefer_related_applications": false,
   "display_override": ["window-controls-overlay"],
   "features": ["Cross Platform", "fast", "simple"],
+  "iarc_rating_id": "e58c174a-81d2-5c3c-32cc-34b8de4a52e9",
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://quartoloom.com"
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
   "icons": [
     {
       "src": "pwa-64x64.png",
@@ -40,18 +51,32 @@
       "purpose": "maskable"
     }
   ],
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
+  "handle_links": "preferred",
   "shortcuts": [
     {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "View your dashboard",
-      "url": "/dashboard",
+      "name": "Announcements",
+      "short_name": "Announcements",
+      "description": "View your announcements",
+      "url": "/student/announcements",
       "icons": [
         {
-          "src": "pwa-192x192.png",
+          "src": "images/student-portal/announcements.png",
           "sizes": "192x192"
         }
       ]
+    }
+  ],
+  "share_target": {
+    "action": "/",
+    "method": "GET"
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "https",
+      "url": "/login"
     }
   ],
   "screenshots": [

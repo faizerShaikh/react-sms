@@ -1,29 +1,34 @@
-import { MenuItem } from "@/interfaces";
-
+import { MenuItem } from '@/interfaces';
+import {
+  PiHouseDuotone,
+  PiIdentificationCardDuotone,
+  PiReceiptDuotone,
+  PiUserDuotone,
+} from 'react-icons/pi';
 export const getStudentMenus = (): MenuItem[] => {
   return [
     {
-      label: "Dashboard",
-      icon: "ph-duotone ph-house",
-      routerLink: "/student/home",
+      label: 'Dashboard',
+      icon: PiHouseDuotone,
+      routerLink: '/student/home',
     },
     {
-      label: "Admission",
-      icon: "ph-duotone ph-identification-card",
-      routerLink: "/student/admission",
+      label: 'Admission',
+      icon: PiIdentificationCardDuotone,
+      routerLink: '/student/admission',
       // queryParams: { view: true },
       routerLinkActiveOptions: { exact: true },
     },
     {
-      label: "Fees Details",
-      icon: "ph-duotone ph-receipt",
-      routerLink: "/student/admission/fees",
+      label: 'Fees Details',
+      icon: PiReceiptDuotone,
+      routerLink: '/student/admission/fees',
       routerLinkActiveOptions: { exact: true },
     },
     {
-      label: "Profile",
-      icon: "ph-duotone ph-user",
-      routerLink: "/student/my-profile",
+      label: 'Profile',
+      icon: PiUserDuotone,
+      routerLink: '/student/my-profile',
     },
   ];
 };

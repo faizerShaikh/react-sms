@@ -65,7 +65,7 @@ export function Container({ children }: Props) {
         {children}
       </div>
       <div
-        className='z-[1001] fixed bg-primary rounded-full bottom-4 left-1/2 w-[90%] max-w-[500px] p-2 flex justify-between items-center gap-2'
+        className='z-[1001] fixed bg-primary rounded-full bottom-4 left-1/2 w-[90%] max-w-[450px] p-2 flex justify-between items-center gap-2'
         style={{
           // boxShadow:
           //   'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px',
@@ -91,11 +91,12 @@ export function Container({ children }: Props) {
               item.routerLink && navigate(item.routerLink);
             }}
           >
-            <i
-              className={`text-xl text-inherit transition-all duration-300 ${
+            <item.icon
+              size={20}
+              className={`text-inherit transition-all duration-300 ${
                 pathname === item.routerLink ? 'text-primary' : 'text-white'
-              } ${item.icon}`}
-            ></i>
+              }`}
+            />
             {pathname === item.routerLink && (
               <span className='text-xs text-inherit font-satoshi text-center label'>
                 {item.label}

@@ -1,5 +1,5 @@
-import { ActionCard, Button, PowerdBy, Separator } from "@/components";
-import { schoolConfig } from "@/configs";
+import { ActionCard, Button, PowerdBy, Separator } from '@/components';
+import { schoolConfig } from '@/configs';
 
 type Props = {};
 
@@ -8,7 +8,7 @@ export function Landing({}: Props) {
     <div className='sm:p-2 p-5 sm:w-[500px] h-screen md:flex md:justify-center md:flex-col mx-auto'>
       <div
         className='mx-auto mt-10'
-        style={{ width: "180px", height: "180px" }}
+        style={{ width: '180px', height: '180px' }}
       >
         <img
           className='w-full h-full'
@@ -42,7 +42,7 @@ export function Landing({}: Props) {
           Sign In
         </Button>
       </div>
-      <PowerdBy className='py-5 absolute bottom-0 left-1/2 -translate-x-1/2'></PowerdBy>
+      <PowerdBy className='py-5'></PowerdBy>
     </div>
   );
 }

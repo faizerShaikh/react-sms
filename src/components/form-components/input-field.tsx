@@ -1,9 +1,9 @@
-"use client";
-import { cn, getValueByKey } from "@/lib/utils";
-import React, { useState } from "react";
-import { FieldError, useFormContext } from "react-hook-form";
-import { Input } from "../ui/input";
-import { HelpText } from "./help-text";
+'use client';
+import { cn, getValueByKey } from '@/lib/utils';
+import React, { useState } from 'react';
+import { FieldError, useFormContext } from 'react-hook-form';
+import { Input } from '../ui/input';
+import { HelpText } from './help-text';
 
 interface InputProps {
   name: string;
@@ -16,7 +16,7 @@ interface InputProps {
   dataRef?: string;
   helpText?: string;
   accept?: string;
-  size?: "sm" | "lg";
+  size?: 'sm' | 'lg';
   isReadOnly?: boolean;
   min?: number;
   max?: number;
@@ -27,14 +27,14 @@ export const InputField: React.FC<InputProps> = ({
   name,
   label,
   placeholder,
-  type = "text",
+  type = 'text',
   disabled = false,
   required = false,
   className,
   dataRef,
   helpText,
   accept,
-  size = "lg",
+  size = 'lg',
   isReadOnly = false,
   min,
   max,
@@ -51,22 +51,22 @@ export const InputField: React.FC<InputProps> = ({
 
   let regData: any = register(name, {
     required,
-    valueAsNumber: type === "string",
+    valueAsNumber: type === 'string',
   });
 
   if (isReadOnly) {
     return (
       <div
         className={cn(
-          "sm:border-l border-l-zinc-100 sm:pl-6 min-h-12",
-          className
+          'sm:border-l border-l-zinc-100 sm:pl-6 min-h-12',
+          className,
         )}
       >
         <label className='text-sm font-semibold text-zinc-700 whitespace-nowrap'>
           {label}
         </label>
         <p className='text-sm text-zinc-500 font-medium'>
-          {watch(name) || "-"}
+          {watch(name) || '-'}
         </p>
       </div>
     );
@@ -89,18 +89,18 @@ export const InputField: React.FC<InputProps> = ({
         </label>
       )}
       <div
-        className={cn("focus-within:p-[1px] rounded-sm", {
-          "bg-tertiary-gradient": !error || !disabled,
-        })}
+      // className={cn('focus-within:p-[1px] rounded-sm', {
+      //   'bg-primary': !error || !disabled,
+      // })}
       >
         <Input
           autoComplete='false'
           id={name}
           type={
-            type === "password"
+            type === 'password'
               ? isPasswordVisible
-                ? "text"
-                : "password"
+                ? 'text'
+                : 'password'
               : type
           }
           placeholder={placeholder}
@@ -113,23 +113,23 @@ export const InputField: React.FC<InputProps> = ({
           maxLength={maxLength}
           {...{ ...regData, ref: undefined }}
           className={cn(
-            `border md:!text-lg !h-[52px] block !w-full text-active bg-background placeholder:text-gray-300 rounded-sm px-4 py-[17px] focus-visible:ring-0 border-solid focus:outline-none !leading-3 ${
-              error ? "border-destructive" : ""
+            `border md:!text-lg !h-[52px] block !w-full focus:border-primary text-active bg-background placeholder:text-gray-300 rounded-sm px-4 py-[17px] focus-visible:ring-0 border-solid focus:outline-none !leading-3 ${
+              error ? 'border-destructive' : ''
             }`,
             {
-              "px-[10px] py-[9px] !text-sm !h-[38px]": size === "sm",
-            }
+              'px-[10px] py-[9px] !text-sm !h-[38px]': size === 'sm',
+            },
           )}
         />
-        {type === "password" && (
+        {type === 'password' && (
           <>
             <i
               className={cn(
-                "ph text-lg absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer",
+                'ph text-lg absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer',
                 {
-                  "ph-eye-slash": isPasswordVisible,
-                  "ph-eye": !isPasswordVisible,
-                }
+                  'ph-eye-slash': isPasswordVisible,
+                  'ph-eye': !isPasswordVisible,
+                },
               )}
               style={{ opacity: disabled ? 0.38 : 1 }}
               onClick={() => setIsPasswordVisible(!isPasswordVisible)}

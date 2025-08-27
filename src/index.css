@@ -1,6 +1,6 @@
 @config "../tailwind.config.js";
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -11,6 +11,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -128,7 +129,7 @@
 }
 .header::after {
   @apply bg-primary;
-  content: "";
+  content: '';
   position: absolute;
   bottom: 0px;
   transform: translateY(100%);
@@ -138,7 +139,7 @@
   z-index: 1;
 }
 .header::before {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 0px;
   transform: translateY(100%);
@@ -148,4 +149,32 @@
   height: 2rem;
   border-top-right-radius: 2rem;
   z-index: 2;
+}
+
+.tabs-wrapper {
+  background:
+    linear-gradient(to right, #ffffff 33%, rgba(255, 255, 255, 0)),
+    linear-gradient(to left, #ffffff 66%, rgba(255, 255, 255, 0)) 100% 0,
+    radial-gradient(
+      farthest-side at 0 50%,
+      rgba(102, 102, 102, 0.5),
+      rgba(0, 0, 0, 0)
+    ),
+    radial-gradient(
+        farthest-side at 100% 50%,
+        rgba(102, 102, 102, 0.5),
+        rgba(0, 0, 0, 0)
+      )
+      100% 0;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  background-attachment: local, local, scroll, scroll;
+  background-size:
+    48px 100%,
+    48px 100%,
+    16px 100%,
+    16px 100%;
+}
+.tabs-wrapper::-webkit-scrollbar {
+  display: none;
 }

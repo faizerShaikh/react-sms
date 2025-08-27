@@ -1,6 +1,7 @@
-import { useAuth } from "@/context/auth-context";
-import { Link, useLocation, useNavigate } from "react-router";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useAuth } from '@/context/auth-context';
+import { cn } from '@/lib/utils';
+import { Link, useLocation, useNavigate } from 'react-router';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 type Props = {
   children: React.ReactNode;
@@ -13,8 +14,8 @@ export function Container({ children }: Props) {
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const shouldShowHeader = ["/student/home", "/teacher/home"].includes(
-    pathname
+  const shouldShowHeader = ['/student/home', '/teacher/home'].includes(
+    pathname,
   );
   return (
     <div className='flex flex-col h-screen max-w-[959px] mx-auto relative'>
@@ -35,7 +36,7 @@ export function Container({ children }: Props) {
             </div>
           </div>
           <Link
-            to={"/student/my-profile"}
+            to={'/student/my-profile'}
             className='w-13 h-13 flex justify-center items-center border border-white rounded-full p-1'
           >
             <Avatar className='block w-12 h-12'>
@@ -48,7 +49,7 @@ export function Container({ children }: Props) {
               />
               <AvatarFallback>
                 {userData?.name?.[0]}
-                {userData?.name?.split(" ")[1]?.[0]}
+                {userData?.name?.split(' ')[1]?.[0]}
               </AvatarFallback>
             </Avatar>
           </Link>
@@ -57,22 +58,26 @@ export function Container({ children }: Props) {
       <div
         className={`bg-white p-5 sm:p-5 overflow-y-auto ${
           shouldShowHeader
-            ? "h-[calc(100vh_-_160px)] mt-20"
-            : "h-[calc(100vh_-_100px)]"
+            ? 'h-[calc(100vh_-_160px)] mt-20'
+            : 'h-[calc(100vh_-_100px)]'
         }`}
       >
         {children}
       </div>
       <div
-        className='z-[1001] absolute bg-background rounded-t-2xl bottom-0 left-1/2 w-full pt-2 px-2 flex justify-between items-center gap-2 pb-5'
+        className='z-[1001] absolute bg-background rounded-t-2xl bottom-0 left-1/2 w-full pt-2 px-2 flex justify-between items-center gap-2'
         style={{
-          boxShadow: "0px -4px 20px rgba(0, 0, 0, 0.09)",
-          transform: "translateX(-50%)",
+          boxShadow: '0px -4px 20px rgba(0, 0, 0, 0.09)',
+          transform: 'translateX(-50%)',
         }}
       >
         {menuItems.map((item) => (
           <div
-            className='flex flex-col justify-center items-center text-gray-500 flex-1 py-1 px-1 cursor-pointer'
+            className={cn(
+              'flex flex-col justify-center items-center text-gray-500 flex-1 py-3 px-1 cursor-pointer',
+              pathname === item.routerLink &&
+                'text-primary border-4 border-b-primary border-x-0 border-t-0 bg-[linear-gradient(180deg,_rgb(253,_253,_253)_20%,_#e9f1ff_100%)]',
+            )}
             key={item.label}
             onClick={() => {
               item.routerLink && navigate(item.routerLink);

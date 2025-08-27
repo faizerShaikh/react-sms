@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { api } from '@/configs/axios';
 import { useAuth } from '@/context/auth-context';
 import { AdmissionInstalmentInterface } from '@/interfaces';
-import { getWithOrdinalSuffix } from '@/lib/utils';
+import { getFormatedFeeDueDate, getWithOrdinalSuffix } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router';
@@ -61,7 +61,7 @@ export function StudentHome({}: Props) {
   }, [userData]);
 
   return (
-    <div className='flex flex-col gap-5'>
+    <div className='flex flex-col gap-3'>
       {userData && pendingTaks.length > 0 && (
         <Accordion type='single' collapsible className='z-10'>
           <AccordionItem value='item-1'>
@@ -73,7 +73,7 @@ export function StudentHome({}: Props) {
                 </div>
               </Heading>
             </AccordionTrigger>
-            <AccordionContent className='flex flex-col gap-3 pt-1'>
+            <AccordionContent className='flex flex-col gap-3 pt-3'>
               {pendingTaks.map((task) => (
                 <Alert
                   variant='info'
@@ -145,8 +145,15 @@ export function StudentHome({}: Props) {
                         {item.is_paid ? 'Paid' : 'Due'}
                       </Badge>
                     </div>
-                    <div className='text-placeholder text-sm font-medium font-satoshi'>
-                      &#8377; {item.total_amount}
+                    <div className='flex justify-between items-center'>
+                      <div className='text-placeholder text-sm font-medium font-satoshi'>
+                        {item.is_first_instalment
+                          ? 'Pay after admission'
+                          : 'Before ' + getFormatedFeeDueDate(item)}
+                      </div>
+                      <div className='text-placeholder text-sm font-medium font-satoshi'>
+                        &#8377; {item.total_amount}
+                      </div>
                     </div>
                   </div>
                 </Link>

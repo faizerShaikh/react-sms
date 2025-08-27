@@ -1,19 +1,24 @@
-import { MobileResponsiveDialog } from "@/components";
-import { Alert, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { api } from "@/configs/axios";
-import { FRONTEND_DATE_FORMAT, FRONTEND_DATE_TIME_FORMAT } from "@/constants";
-import { useAuth } from "@/context/auth-context";
+import { MobileResponsiveDialog } from '@/components';
+import { Alert, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { api } from '@/configs/axios';
+import { FRONTEND_DATE_TIME_FORMAT } from '@/constants';
+import { useAuth } from '@/context/auth-context';
 import {
   AdmissionInstalmentInterface,
   AdmissionOtherChargesInterface,
-} from "@/interfaces";
-import { cn, downloadFile, getWithOrdinalSuffix } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
-import { formatDate } from "date-fns";
-import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
+} from '@/interfaces';
+import {
+  cn,
+  downloadFile,
+  getFormatedFeeDueDate,
+  getWithOrdinalSuffix,
+} from '@/lib/utils';
+import { useMutation } from '@tanstack/react-query';
+import { formatDate } from 'date-fns';
+import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 type Props = {
   selectedFeesData:
@@ -23,7 +28,7 @@ type Props = {
 };
 
 export function ViewPaymentDetail({ selectedFeesData, onClose }: Props) {
-  const isInstalment = "installment_no" in selectedFeesData;
+  const isInstalment = 'installment_no' in selectedFeesData;
 
   return (
     <MobileResponsiveDialog
@@ -31,7 +36,7 @@ export function ViewPaymentDetail({ selectedFeesData, onClose }: Props) {
       heading={
         isInstalment
           ? getWithOrdinalSuffix(selectedFeesData.installment_no) +
-            " Instalment"
+            ' Instalment'
           : selectedFeesData.description
       }
       onClose={onClose}
@@ -50,48 +55,38 @@ function ViewInstalmentPaymentDetail({
   className,
   selectedFeesData,
   onClose,
-}: React.ComponentProps<"div"> & {
+}: React.ComponentProps<'div'> & {
   selectedFeesData:
     | AdmissionInstalmentInterface
     | AdmissionOtherChargesInterface;
   onClose: () => void;
 }) {
   const onlinePaymentEnabled = false;
-  const isInstalment = "installment_no" in selectedFeesData;
+  const isInstalment = 'installment_no' in selectedFeesData;
   const {
     state: { userData },
   } = useAuth();
 
-  function getFormatedDate(item: AdmissionInstalmentInterface) {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const createdDate = new Date(
-      currentYear,
-      item.due_in_month - 1,
-      item.due_date
-    );
-    return formatDate(createdDate, FRONTEND_DATE_FORMAT);
-  }
   const { mutate, isPending } = useMutation({
     mutationFn: () => {
-      return api.post("/print-receipt/", {
+      return api.post('/print-receipt/', {
         adm_id: userData?.admission_id,
-        [isInstalment ? "instalment_id" : "charge_id"]: selectedFeesData.id,
-        type: isInstalment ? "instalment" : "form_fees",
+        [isInstalment ? 'instalment_id' : 'charge_id']: selectedFeesData.id,
+        type: isInstalment ? 'instalment' : 'form_fees',
       });
     },
     onSuccess: (data: { data: { path: string } }) => {
       console.log(data);
-      downloadFile(data.data.path, isInstalment ? "Instalment" : "Form Fees");
+      downloadFile(data.data.path, isInstalment ? 'Instalment' : 'Form Fees');
       toast.success(
-        (isInstalment ? "Instalment" : "Form Fees") +
-          " Recipt downloaded successfully"
+        (isInstalment ? 'Instalment' : 'Form Fees') +
+          ' Recipt downloaded successfully',
       );
     },
   });
 
   return (
-    <div className={cn(className, "md:p-0 p-5 !pt-0")}>
+    <div className={cn(className, 'md:p-0 p-5 !pt-0')}>
       {onlinePaymentEnabled && (
         <Alert className='block mt-3'>
           <i className='ph-bold ph-info'></i>
@@ -104,7 +99,7 @@ function ViewInstalmentPaymentDetail({
       <div className='flex flex-col gap-2 py-5'>
         <div className='flex justify-between items-center gap-4'>
           <div className='font-satoshi text-sm text-gray-800'>
-            {isInstalment ? "Instalment Amount" : "Amount"}
+            {isInstalment ? 'Instalment Amount' : 'Amount'}
           </div>
           <div className='font-satoshi text-sm text-gray-900 font-medium'>
             &#8377; {selectedFeesData.amount}
@@ -157,17 +152,17 @@ function ViewInstalmentPaymentDetail({
           <div className='font-satoshi text-sm text-gray-900 font-medium'>
             {isInstalment
               ? selectedFeesData.is_first_instalment
-                ? "Pay after admission"
-                : "Before " + getFormatedDate(selectedFeesData)
-              : "Pay while filling admission form"}
+                ? 'Pay after admission'
+                : 'Before ' + getFormatedFeeDueDate(selectedFeesData)
+              : 'Pay while filling admission form'}
           </div>
         </div>
         <div className='flex justify-between items-center gap-4'>
           <div className='font-satoshi text-sm text-gray-800'>
             Payment Status
           </div>
-          <Badge variant={!selectedFeesData.is_paid ? "warning" : "success"}>
-            {!selectedFeesData.is_paid ? "Due" : "Paid"}
+          <Badge variant={!selectedFeesData.is_paid ? 'warning' : 'success'}>
+            {!selectedFeesData.is_paid ? 'Due' : 'Paid'}
           </Badge>
         </div>
         <div className='flex justify-between items-center gap-4'>
@@ -176,21 +171,21 @@ function ViewInstalmentPaymentDetail({
             {selectedFeesData.payment_date
               ? formatDate(
                   selectedFeesData.payment_date,
-                  FRONTEND_DATE_TIME_FORMAT
+                  FRONTEND_DATE_TIME_FORMAT,
                 )
-              : "-"}
+              : '-'}
           </div>
         </div>
         <div className='flex justify-between items-center gap-4'>
           <div className='font-satoshi text-sm text-gray-800'>Payment By</div>
           <div className='font-satoshi text-sm text-gray-900 font-medium'>
-            {selectedFeesData.paid_by?.full_name || "-"}
+            {selectedFeesData.paid_by?.full_name || '-'}
           </div>
         </div>
         <div className='flex justify-between items-center gap-4'>
           <div className='font-satoshi text-sm text-gray-800'>Payment Mode</div>
           <div className='font-satoshi text-sm text-gray-900 font-medium'>
-            {selectedFeesData.payment_method || "-"}
+            {selectedFeesData.payment_method || '-'}
           </div>
         </div>
       </div>
@@ -209,7 +204,7 @@ function ViewInstalmentPaymentDetail({
           type='button'
           variant='outline'
           className='font-normal w-auto rounded-md'
-          size={"large"}
+          size={'large'}
           onClick={() => onClose()}
         >
           Close
@@ -221,7 +216,7 @@ function ViewInstalmentPaymentDetail({
             type='button'
             variant='primary-contained'
             className='font-normal w-auto rounded-md'
-            size={"large"}
+            size={'large'}
           >
             {isPending ? (
               <Loader2 className='animate-spin' />

@@ -1,4 +1,4 @@
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 import {
   Dialog,
@@ -6,20 +6,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Drawer, DrawerTrigger } from "./ui/drawer";
-import { DrawerContent } from "./ui/drawer";
-import { DrawerHeader } from "./ui/drawer";
-import { DrawerTitle } from "./ui/drawer";
-import { Heading } from "./heading";
-import { useEffect, useState } from "react";
+} from '@/components/ui/dialog';
+import { useEffect, useState } from 'react';
+import { Heading } from './heading';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from './ui/drawer';
 
 type Props = {
-  onClose: () => void;
+  onClose?: () => void;
   heading: string;
   children: (props: { onClose: () => void }) => React.ReactNode;
   autoOpen?: boolean;
   trigger?: React.ReactNode;
+  onCloseRef?: React.RefObject<() => void>;
+  dialogContentClassName?: string;
 };
 
 export function MobileResponsiveDialog({
@@ -28,6 +33,8 @@ export function MobileResponsiveDialog({
   children,
   autoOpen = false,
   trigger,
+  onCloseRef,
+  dialogContentClassName = 'sm:max-w-[425px]',
 }: Props) {
   const [open, setOpen] = useState(false);
   const isDesktop = !useIsMobile();
@@ -40,8 +47,16 @@ export function MobileResponsiveDialog({
 
   function onCloseHandler() {
     setOpen(false);
-    onClose();
+    onClose?.();
   }
+
+  useEffect(() => {
+    if (onCloseRef) {
+      onCloseRef.current = () => {
+        setOpen(false);
+      };
+    }
+  }, [onCloseRef]);
 
   if (isDesktop) {
     return (
@@ -49,13 +64,13 @@ export function MobileResponsiveDialog({
         open={open}
         onOpenChange={(val) => {
           if (!val) {
-            onClose();
+            onClose?.();
           }
           setOpen(val);
         }}
       >
         {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-        <DialogContent className='sm:max-w-[425px]'>
+        <DialogContent className={dialogContentClassName}>
           <DialogHeader>
             <DialogTitle className='text-start pb-0'>
               <Heading>{heading}</Heading>
@@ -73,7 +88,7 @@ export function MobileResponsiveDialog({
       open={open}
       onOpenChange={(val) => {
         if (!val) {
-          onClose();
+          onClose?.();
         }
         setOpen(val);
       }}

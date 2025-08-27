@@ -2,16 +2,14 @@ import { Heading, MobileHeader } from '@/components';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { api } from '@/configs/axios';
-import { FRONTEND_DATE_FORMAT } from '@/constants';
 import { useAuth } from '@/context/auth-context';
 import {
   AdmissionFeesInterface,
   AdmissionInstalmentInterface,
   AdmissionOtherChargesInterface,
 } from '@/interfaces';
-import { getWithOrdinalSuffix } from '@/lib/utils';
+import { getFormatedFeeDueDate, getWithOrdinalSuffix } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
-import { formatDate } from 'date-fns';
 import { useState } from 'react';
 import { ViewPaymentDetail } from './components/view-payment-detail';
 import { ViewPaymentMethodDetails } from './components/view-payment-method-details';
@@ -36,17 +34,6 @@ export function FeesDetail({}: Props) {
         .then((res) => res.data),
     enabled: !!userData?.admission_id,
   });
-
-  function getFormatedDate(item: AdmissionInstalmentInterface) {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const createdDate = new Date(
-      currentYear,
-      item.due_in_month - 1,
-      item.due_date,
-    );
-    return formatDate(createdDate, FRONTEND_DATE_FORMAT);
-  }
 
   return (
     <div>
@@ -170,7 +157,7 @@ export function FeesDetail({}: Props) {
                     (
                     {item.is_first_instalment
                       ? 'Pay after admission'
-                      : 'Before ' + getFormatedDate(item)}
+                      : 'Before ' + getFormatedFeeDueDate(item)}
                     )
                   </span>
                 </div>

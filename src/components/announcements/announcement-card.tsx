@@ -1,12 +1,12 @@
-import { cn } from "@/lib/utils";
-import { AnnouncementHeading } from "./announcement-heading";
-import { AnnouncementReciverInterface } from "@/interfaces";
+import { AnnouncementReciverInterface } from '@/interfaces';
+import { cn } from '@/lib/utils';
+import { AnnouncementHeading } from './announcement-heading';
 type Props = {
   item: AnnouncementReciverInterface;
   showRead?: boolean;
   isSelected: boolean;
   setSelectedAnnouncement: (
-    announcement: AnnouncementReciverInterface | null
+    announcement: AnnouncementReciverInterface | null,
   ) => void;
 };
 
@@ -19,10 +19,10 @@ export function AnnouncementCard({
   return (
     <div
       className={cn(
-        "border-slate-100 shadow-s border-solid border-[1px] cursor-pointer rounded-lg p-4 flex flex-col gap-3 hover:bg-primary-light",
+        'border-slate-100 shadow-s border-solid border-[1px] cursor-pointer rounded-lg p-4 flex flex-col mb-4 gap-3 hover:bg-primary-light',
         {
-          "bg-primary-light": isSelected,
-        }
+          'bg-primary-light': isSelected,
+        },
       )}
       onClick={() => setSelectedAnnouncement(item)}
     >
@@ -32,8 +32,8 @@ export function AnnouncementCard({
         dangerouslySetInnerHTML={{ __html: item.announcement.content }}
       ></p>
       <div
-        className={cn("flex justify-between items-center", {
-          "!justify-end": !item.announcement.attachments.length,
+        className={cn('flex justify-between items-center', {
+          '!justify-end': !item.announcement.attachments.length,
         })}
       >
         {!!item.announcement.attachments.length && (
@@ -47,8 +47,8 @@ export function AnnouncementCard({
           </div>
         )}
         <span className='font-satoshi font-medium text-sm underline text-primary'>
-          {" "}
-          Read More{" "}
+          {' '}
+          Read More{' '}
         </span>
       </div>
     </div>

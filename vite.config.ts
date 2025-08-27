@@ -1,17 +1,20 @@
-import { VitePWA } from "vite-plugin-pwa";
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: true,
+  },
   plugins: [
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: "autoUpdate",
-      injectRegister: "auto",
+      registerType: 'autoUpdate',
+      injectRegister: 'auto',
 
       pwaAssets: {
         disabled: true,
@@ -20,62 +23,62 @@ export default defineConfig({
 
       // Enable update detection
       includeAssets: [
-        "favicon.ico",
-        "apple-touch-icon-180x180.png",
-        "masked-icon.svg",
+        'favicon.ico',
+        'apple-touch-icon-180x180.png',
+        'masked-icon.svg',
       ],
       workbox: {
-        globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
         skipWaiting: false, // Don't skip waiting automatically, let user choose
       },
 
       manifest: {
-        name: "School Management System",
-        short_name: "SMS",
-        theme_color: "#004ab0",
-        background_color: "#ffffff",
-        display: "standalone",
-        scope: "/",
-        start_url: "/",
+        name: 'School Management System',
+        short_name: 'SMS',
+        theme_color: '#004ab0',
+        background_color: '#ffffff',
+        display: 'standalone',
+        scope: '/',
+        start_url: '/',
         prefer_related_applications: false,
         icons: [
           {
-            src: "pwa-64x64.png",
-            sizes: "64x64",
-            type: "image/png",
+            src: 'pwa-64x64.png',
+            sizes: '64x64',
+            type: 'image/png',
           },
           {
-            src: "pwa-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
           },
           {
-            src: "pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
           },
           {
-            src: "maskable-icon-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "maskable",
+            src: 'maskable-icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
           },
         ],
       },
 
       devOptions: {
         enabled: true,
-        navigateFallback: "index.html",
+        navigateFallback: 'index.html',
         suppressWarnings: true,
-        type: "module",
+        type: 'module',
       },
     }),
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });

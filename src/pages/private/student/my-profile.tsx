@@ -1,11 +1,11 @@
-import { Heading } from "@/components/heading";
-import { LogoutAlert } from "@/components/logout-alert";
-import { MobileHeader } from "@/components/mobile-header";
-import { Alert, AlertTitle } from "@/components/ui/alert";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { useAuth } from "@/context/auth-context";
-import { AvatarFallback } from "@radix-ui/react-avatar";
-import { Link } from "react-router";
+import { Heading } from '@/components/heading';
+import { LogoutAlert } from '@/components/logout-alert';
+import { MobileHeader } from '@/components/mobile-header';
+import { Alert, AlertTitle } from '@/components/ui/alert';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { useAuth } from '@/context/auth-context';
+import { AvatarFallback } from '@radix-ui/react-avatar';
+import { Link } from 'react-router';
 
 type Props = {};
 
@@ -25,13 +25,13 @@ export function MyProfile({}: Props) {
           <Avatar className='w-16 h-16'>
             <AvatarImage
               src={
-                import.meta.env.VITE_MEDIA_FOLDER_URL + userData?.photo || ""
+                import.meta.env.VITE_MEDIA_FOLDER_URL + userData?.photo || ''
               }
               className='object-cover object-center'
             />
             <AvatarFallback>
               {userData?.name?.charAt(0) +
-                (userData?.name?.split(" ")[1]?.charAt(0) || "")}
+                (userData?.name?.split(' ')[1]?.charAt(0) || '')}
             </AvatarFallback>
           </Avatar>
           <div className='flex justify-start items-start flex-col'>
@@ -46,9 +46,9 @@ export function MyProfile({}: Props) {
         <LogoutAlert userData={userData} />
       </div>
       <Heading variant='secondary'>Other Students</Heading>
-      <Alert variant={"info"} className='flex justify-start items-center gap-2'>
+      <Alert variant={'info'} className='flex justify-start items-center gap-2'>
         <i className='ph-info ph'></i>
-        <AlertTitle>
+        <AlertTitle className='break-words'>
           You can add more student accounts to manage multiple students.
         </AlertTitle>
       </Alert>
@@ -72,12 +72,12 @@ export function MyProfile({}: Props) {
                   <AvatarImage
                     className='object-cover object-center'
                     src={
-                      import.meta.env.VITE_MEDIA_FOLDER_URL + item?.photo || ""
+                      import.meta.env.VITE_MEDIA_FOLDER_URL + item?.photo || ''
                     }
                   />
                   <AvatarFallback>
                     {item?.name?.charAt(0) +
-                      (item?.name?.split(" ")[1]?.charAt(0) || "")}
+                      (item?.name?.split(' ')[1]?.charAt(0) || '')}
                   </AvatarFallback>
                 </Avatar>
 
@@ -92,7 +92,7 @@ export function MyProfile({}: Props) {
               </div>
               <LogoutAlert userData={item} />
             </div>
-          )
+          ),
       )}
     </div>
   );

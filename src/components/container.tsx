@@ -65,28 +65,42 @@ export function Container({ children }: Props) {
         {children}
       </div>
       <div
-        className='z-[1001] absolute bg-background rounded-t-2xl bottom-0 left-1/2 w-full pt-2 px-2 flex justify-between items-center gap-2'
+        className='z-[1001] fixed bg-primary rounded-full bottom-4 left-1/2 w-[90%] max-w-[500px] p-2 flex justify-between items-center gap-2'
         style={{
-          boxShadow: '0px -4px 20px rgba(0, 0, 0, 0.09)',
+          // boxShadow:
+          //   'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px',
+          boxShadow:
+            '0px 5px 30px -3px rgba(0, 0, 0, 0.5), 0px 4px 6px -4px rgba(16, 24, 40, 0.10)',
           transform: 'translateX(-50%)',
         }}
       >
         {menuItems.map((item) => (
           <div
             className={cn(
-              'flex flex-col justify-center items-center text-gray-500 flex-1 py-3 px-1 cursor-pointer',
-              pathname === item.routerLink &&
-                'text-primary border-4 border-b-primary border-x-0 border-t-0 bg-[linear-gradient(180deg,_rgb(253,_253,_253)_20%,_#e9f1ff_100%)]',
+              'flex gap-3 justify-center items-center rounded-full text-white transition-all duration-300 flex-row px-4 py-3 cursor-pointer',
+              pathname === item.routerLink && 'text-primary bg-white font-bold',
             )}
             key={item.label}
+            style={{
+              boxShadow:
+                pathname === item.routerLink
+                  ? '5px 5px 8px -3px rgba(0, 0, 0, 0.8)'
+                  : 'none',
+            }}
             onClick={() => {
               item.routerLink && navigate(item.routerLink);
             }}
           >
-            <i className={`text-2xl text-inherit ${item.icon}`}></i>
-            <span className='text-xs text-inherit font-bold font-satoshi text-center label'>
-              {item.label}
-            </span>
+            <i
+              className={`text-xl text-inherit transition-all duration-300 ${
+                pathname === item.routerLink ? 'text-primary' : 'text-white'
+              } ${item.icon}`}
+            ></i>
+            {pathname === item.routerLink && (
+              <span className='text-xs text-inherit font-satoshi text-center label'>
+                {item.label}
+              </span>
+            )}
           </div>
         ))}
       </div>

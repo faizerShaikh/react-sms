@@ -1,22 +1,22 @@
-import { ActionCard, Button } from "@/components";
-import { PowerdBy } from "@/components/powerd-by";
-import { schoolConfig } from "@/configs/app-config";
-import { useEffect, useMemo, useState } from "react";
-import * as yup from "yup";
-import { LoginForm } from "./components/login-form";
-import { useSearchParams } from "react-router";
-import { useAuth } from "@/context/auth-context";
+import { ActionCard, Button } from '@/components';
+import { PowerdBy } from '@/components/powerd-by';
+import { schoolConfig } from '@/configs/app-config';
+import { useAuth } from '@/context/auth-context';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router';
+import * as yup from 'yup';
+import { LoginForm } from './components/login-form';
 
 type Props = {};
 
 const studentLoginSchema = yup.object().shape({
-  adm_number: yup.string().required("Admission Number is required"),
-  password: yup.string().required("Password is required"),
+  adm_number: yup.string().required('Admission Number is required'),
+  password: yup.string().required('Password is required'),
 });
 
 const teacherLoginSchema = yup.object().shape({
-  employee_id: yup.string().required("Employee ID is required"),
-  password: yup.string().required("Password is required"),
+  employee_id: yup.string().required('Employee ID is required'),
+  password: yup.string().required('Password is required'),
 });
 
 export function Login({}: Props) {
@@ -27,12 +27,12 @@ export function Login({}: Props) {
   } = useAuth();
 
   const isAddMore = useMemo(() => {
-    return !!(params.get("add_more") === "true" && userData);
+    return !!(params.get('add_more') === 'true' && userData);
   }, [params, userData]);
 
   useEffect(() => {
     if (isAddMore) {
-      setUserType("Student");
+      setUserType('Student');
     }
   }, [isAddMore]);
 
@@ -40,15 +40,15 @@ export function Login({}: Props) {
     <div className='sm:p-2 relative p-5 sm:w-[500px] h-screen flex flex-col mx-auto '>
       <div
         className='w-48 h-48 rounded-full fixed top-0 left-5 translate-center bg-primary'
-        style={{ filter: "blur(100px)" }}
+        style={{ filter: 'blur(100px)' }}
       ></div>
       <div
         className='w-48 h-48 rounded-full fixed top-[50%] -right-28 bg-primary'
-        style={{ filter: "blur(130px)" }}
+        style={{ filter: 'blur(130px)' }}
       ></div>
       <div
         className='mx-auto mt-10'
-        style={{ width: "180px", height: "180px" }}
+        style={{ width: '180px', height: '180px' }}
       >
         <img
           className='w-full h-full'
@@ -67,9 +67,9 @@ export function Login({}: Props) {
         <>
           <LoginForm
             isAddMore={isAddMore}
-            userType={userType || "Student"}
+            userType={userType || 'Student'}
             schema={
-              userType === "Student" ? studentLoginSchema : teacherLoginSchema
+              userType === 'Student' ? studentLoginSchema : teacherLoginSchema
             }
             resetForm={() => setUserType(null)}
           />
@@ -93,13 +93,17 @@ export function Login({}: Props) {
       ) : (
         <div className='flex items-start flex-col gap-3 self-stretch my-6'>
           <ActionCard
-            onContainerClick={() => setUserType("Student")}
+            onContainerClick={() => {
+              setUserType('Student');
+            }}
             icon='ph-duotone ph-student'
             heading='Student Login'
             description='Login using your Admission Number to access the Student Portal.'
           ></ActionCard>
           <ActionCard
-            onContainerClick={() => setUserType("Teacher")}
+            onContainerClick={() => {
+              setUserType('Teacher');
+            }}
             icon='ph-duotone ph-chalkboard-teacher'
             heading='Staff Login'
             description='Log in with your Employee ID to access the Staff Portal.'

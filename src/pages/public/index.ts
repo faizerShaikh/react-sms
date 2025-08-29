@@ -1,2 +1,4 @@
-export * from "./landing";
-export * from "./auth";
+export * from './admission';
+export * from './auth';
+export * from './enquiries';
+export * from './landing';

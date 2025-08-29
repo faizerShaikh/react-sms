@@ -21,6 +21,8 @@ interface InputProps {
   min?: number;
   max?: number;
   maxLength?: number;
+  inputClassName?: string;
+  rightIcon?: string;
 }
 
 export const InputField: React.FC<InputProps> = ({
@@ -39,6 +41,8 @@ export const InputField: React.FC<InputProps> = ({
   min,
   max,
   maxLength,
+  inputClassName,
+  rightIcon,
 }) => {
   const {
     register,
@@ -56,12 +60,7 @@ export const InputField: React.FC<InputProps> = ({
 
   if (isReadOnly) {
     return (
-      <div
-        className={cn(
-          'sm:border-l border-l-zinc-100 sm:pl-6 min-h-12',
-          className,
-        )}
-      >
+      <div className={cn('min-h-12', className)}>
         <label className='text-sm font-semibold text-zinc-700 whitespace-nowrap'>
           {label}
         </label>
@@ -119,8 +118,12 @@ export const InputField: React.FC<InputProps> = ({
             {
               'px-[10px] py-[9px] !text-sm !h-[38px]': size === 'sm',
             },
+            inputClassName,
           )}
         />
+        <div className='absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer'>
+          <i className={cn('ph text-lg', rightIcon)}></i>
+        </div>
         {type === 'password' && (
           <>
             <i

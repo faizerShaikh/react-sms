@@ -1,7 +1,7 @@
-import { useAuth } from "@/context/auth-context";
-import { StudentDataInterface } from "@/interfaces";
-import { MobileResponsiveDialog } from "./mobile-responsive-dialog";
-import { Button } from "./ui";
+import { useAuth } from '@/context/auth-context';
+import { StudentDataInterface } from '@/interfaces';
+import { MobileResponsiveDialog } from './mobile-responsive-dialog';
+import { Button } from './ui';
 
 type Props = {
   userData: StudentDataInterface | null;
@@ -11,7 +11,7 @@ export function LogoutAlert({ userData }: Props) {
   const { removeUser } = useAuth();
   return (
     <MobileResponsiveDialog
-      heading={"Logout Student"}
+      heading={'Logout Student'}
       onClose={() => {}}
       trigger={
         <div className='flex justify-center items-center p-3 hover:bg-slate-100 transition-all duration-300 rounded-full cursor-pointer'>
@@ -34,9 +34,10 @@ export function LogoutAlert({ userData }: Props) {
               type='button'
               variant='primary-contained'
               className='font-normal rounded-md'
-              size={"large"}
+              size={'large'}
               onClick={() => {
                 removeUser(userData);
+                onClose();
               }}
             >
               Yes, Logout
@@ -45,7 +46,7 @@ export function LogoutAlert({ userData }: Props) {
               type='button'
               variant='outline'
               className='font-normal rounded-md'
-              size={"large"}
+              size={'large'}
               onClick={() => {
                 onClose();
               }}

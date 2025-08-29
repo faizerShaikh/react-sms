@@ -25,6 +25,16 @@ const badgeVariants = cva(
           "border-transparent bg-yellow-100 text-yellow-700 [a&]:hover:bg-yellow-500/90 focus-visible:ring-yellow-500/20 dark:focus-visible:ring-yellow-500/40 dark:bg-yellow-500/60 after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:left-2 after:w-2 after:h-2 after:bg-yellow-700 after:rounded-full relative pl-5",
         success:
           "border-transparent bg-teal-100 text-teal-700 [a&]:hover:bg-teal-500/90 focus-visible:ring-teal-500/20 dark:focus-visible:ring-teal-500/40 dark:bg-teal-500/60 after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:left-2 after:w-2 after:h-2 after:bg-teal-700 after:rounded-full relative pl-5",
+        New: 'text-info bg-info-light border-info',
+        'In Progress': 'text-warning bg-warning-light border-warning',
+        Shortlisted: 'text-success bg-success-light border-success',
+        Rejected: 'text-error bg-error-light border-error',
+        Selected: 'text-success bg-success-light border-success',
+        'Under Review': 'text-purple-500 bg-purple-50 border-purple-500',
+        'Approved for Interview':
+          'text-purple-500 bg-purple-50 border-purple-500',
+        Other: 'text-gray-500 bg-gray-50 border-gray-500',
+        'In Review': 'text-stone-500 bg-stone-100 border-stone-100',
       },
     },
     defaultVariants: {

@@ -13,7 +13,7 @@ import { formatDate } from 'date-fns';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { toast } from 'sonner';
 import * as yup from 'yup';
 
@@ -25,7 +25,7 @@ const schema = yup.object({
 });
 
 export function MyAdmissions({}: Props) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
       form_number: '',
@@ -60,7 +60,9 @@ export function MyAdmissions({}: Props) {
     });
   };
 
-  const downloadAdmissionForm = (admission: any) => {};
+  const downloadAdmissionForm = (admission: any) => {
+    console.log(admission);
+  };
 
   return (
     <div className='p-5 flex flex-col justify-center relative items-center w-full'>

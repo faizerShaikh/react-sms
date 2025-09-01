@@ -266,7 +266,10 @@ export const DocumentViewer = ({
                   <Button
                     variant='ghost'
                     size='sm'
-                    onClick={() => handleRemoveFile(index)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemoveFile(index);
+                    }}
                     className='h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50'
                     title='Remove'
                   >

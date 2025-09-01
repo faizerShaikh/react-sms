@@ -1,5 +1,6 @@
 import { api } from '@/configs/axios';
 import { ContentManagementComponentEnum } from '@/enum';
+import { AdmissionInterface } from '@/interfaces';
 import { toFormData } from '@/lib/to-form-data-helper';
 import { useQuery } from '@tanstack/react-query';
 import { useFormContext } from 'react-hook-form';
@@ -92,6 +93,13 @@ export const getDocumentAttachedValuesToSubmit = (values: any) => {
   return toFormData(values, fileFields);
 };
 
+export const getDocumentAttachedDefaultValues = (value: AdmissionInterface) => {
+  return {
+    ...value,
+    ...value.other_documents,
+    is_update: true,
+  };
+};
 export function DocumentAttached({}: Props) {
   const {
     formState: { errors },

@@ -1,6 +1,6 @@
 import { api } from '@/configs/axios';
 import { BACKEND_DATE_FORMAT, BLOOD_GROUPS } from '@/constants';
-import { PostChildrenInfoInterface } from '@/interfaces';
+import { AdmissionInterface, PostChildrenInfoInterface } from '@/interfaces';
 import { StandardInterface } from '@/interfaces/settings/standard';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { format, parse } from 'date-fns';
@@ -54,6 +54,7 @@ export const getChildrenInfoValuesToSubmit = (values: any) => {
     is_update: values.is_update,
     student_data: {
       ...values,
+      transport_facility_required: values.transport_facility_required === 'Yes',
       first_name: values.first_name.toUpperCase(),
       middle_name: values.middle_name.toUpperCase(),
       last_name: values.last_name.toUpperCase(),
@@ -67,6 +68,33 @@ export const getChildrenInfoValuesToSubmit = (values: any) => {
   };
 
   return data;
+};
+
+export const getChildrenInfoDefaultValues = (value: AdmissionInterface) => {
+  return {
+    standard: value?.standard,
+    academic_year: value?.academic_year,
+    batch: value?.batch,
+    first_name: value?.student?.first_name,
+    aadhaar_number: value?.student?.aadhaar_number,
+    middle_name: value?.student?.middle_name,
+    last_name: value?.student?.last_name,
+    name_as_aadhar: value?.student?.name_as_aadhar,
+    dob: new Date(value?.student?.dob),
+    place_of_birth: value?.student?.place_of_birth,
+    nationality: value?.student?.nationality,
+    mother_tongue: value?.student?.mother_tongue,
+    gender: value?.student?.gender,
+    caste: value?.student?.caste,
+    phone: value?.phone,
+    religion: value?.student?.religion,
+    sub_caste: value?.student?.sub_caste,
+    blood_group: value?.student?.blood_group,
+    transport_facility_required: value?.student?.transport_facility_required
+      ? 'Yes'
+      : 'No',
+    is_update: true,
+  };
 };
 
 export const ChildernInfoDefultValues = {
@@ -183,6 +211,8 @@ export function ChildrenInfo({}: Props) {
 
   const caste = watch('caste');
   const standard = watch('standard');
+
+  console.log(watch());
 
   return (
     <div className='mt-6 gap-3 grid sm:grid-cols-1 w-full'>

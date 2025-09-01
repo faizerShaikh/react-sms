@@ -79,8 +79,10 @@ export const parentsInfoSchema = yup.object({
 
 export const getParentsInfoValuesToSubmit = (values: any) => {
   return {
+    is_update: values.is_update,
     father: {
       ...values.father,
+      photo: undefined,
       name: values.father.name.toUpperCase(),
       educational_qualification:
         values.father.educational_qualification.toUpperCase(),
@@ -90,6 +92,7 @@ export const getParentsInfoValuesToSubmit = (values: any) => {
     },
     mother: {
       ...values.mother,
+      photo: undefined,
       name: values.mother.name.toUpperCase(),
       educational_qualification:
         values.mother.educational_qualification.toUpperCase(),
@@ -104,6 +107,7 @@ export const getParentsInfoValuesToSubmit = (values: any) => {
     },
   };
 };
+
 export function ParentsInfo({}: Props) {
   return (
     <div className='gap-5 grid sm:grid-cols-1 w-full mt-5'>

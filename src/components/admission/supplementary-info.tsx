@@ -28,6 +28,7 @@ export const getSupplementryInfoValuesToSubmit = (values: any) => {
       history_of_disease: values.history_of_disease.toUpperCase(),
       allergy_details: values.allergy_details.toUpperCase(),
     },
+    is_update: values.is_update,
   };
 };
 

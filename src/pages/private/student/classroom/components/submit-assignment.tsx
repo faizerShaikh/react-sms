@@ -82,7 +82,7 @@ export function SubmitAssignment({ homeworkId, myAssignment, refetch }: Props) {
                 <FileInput
                   disabled={!!myAssignment}
                   label='Assignments'
-                  isRequired={true}
+                  required={true}
                   name='assignments'
                   accept='*'
                   multiple={true}

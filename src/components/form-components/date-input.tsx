@@ -86,7 +86,8 @@ function DateInput({
               !date && 'text-muted-foreground',
               {
                 'bg-gray-50': disabled || disable,
-                'border-primary': open,
+                'border-primary': open && !error,
+                'border-destructive': error,
               },
             )}
           >

@@ -1,5 +1,6 @@
 export * from './action-card';
 export * from './announcements';
+export * from './confirm-dialog';
 export * from './dashboard-card';
 export * from './document-viewer';
 export * from './heading';
@@ -10,4 +11,5 @@ export * from './mobile-responsive-dialog';
 export * from './no-data';
 export * from './powerd-by';
 export * from './protected-route-wrapper';
+export * from './quill/quill-viewer';
 export * from './ui';

@@ -1,7 +1,7 @@
 import { FRONTEND_DATE_FORMAT } from '@/constants';
 import { AdmissionInstalmentInterface } from '@/interfaces';
 import { clsx, type ClassValue } from 'clsx';
-import { formatDate } from 'date-fns';
+import { format, formatDate, parse } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -50,4 +50,10 @@ export function getFormatedFeeDueDate(item: AdmissionInstalmentInterface) {
     item.due_date,
   );
   return formatDate(createdDate, FRONTEND_DATE_FORMAT);
+}
+
+export function getFormatedTime(time: string) {
+  const parsed = parse(time, 'HH:mm:ss', new Date());
+  const formatted = format(parsed, 'h:mm a');
+  return formatted;
 }

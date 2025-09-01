@@ -6,19 +6,19 @@ import { DocumentViewer } from '..';
 import { HelpText } from './help-text';
 
 type Props = {
-  disabled: boolean;
+  disabled?: boolean;
   label: string;
-  isRequired: boolean;
+  required?: boolean;
   name: string;
-  accept: string;
-  multiple: boolean;
-  helpText: string;
+  accept?: string;
+  multiple?: boolean;
+  helpText?: string;
 };
 
 export function FileInput({
   disabled,
   label,
-  isRequired,
+  required,
   name,
   accept,
   multiple,
@@ -29,7 +29,10 @@ export function FileInput({
     formState: { errors },
     watch,
     setValue,
+    register,
   } = useFormContext();
+
+  const { ref } = register(name);
   const error = getValueByKey(errors, name) as FieldError | undefined;
 
   const value = watch(name);
@@ -78,7 +81,7 @@ export function FileInput({
         )}
       >
         {label}
-        {isRequired && <span className='text-error'>*</span>}
+        {required && <span className='text-error'>*</span>}
       </label>
       {!disabled && (
         <div className='mb-3'>
@@ -96,6 +99,7 @@ export function FileInput({
               inputRef.current?.click();
             }}
           >
+            <input ref={ref} type='hidden' />
             <input
               ref={inputRef}
               type='file'

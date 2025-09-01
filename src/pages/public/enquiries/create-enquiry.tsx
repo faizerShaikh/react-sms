@@ -9,6 +9,7 @@ import { Form } from '@/components/ui/form';
 import { api } from '@/configs/axios';
 import { BACKEND_DATE_FORMAT } from '@/constants';
 import { EnquiryInterface, ExcludeBaseObjectKeys } from '@/interfaces';
+import { calculateAge } from '@/lib/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { formatDate } from 'date-fns';
@@ -84,21 +85,6 @@ export function CreateEnquiry({}: Props) {
       additional_info: '',
     },
   });
-
-  const calculateAge = (dob: string) => {
-    const today = new Date();
-    const birthDate = new Date(dob);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
-    ) {
-      age--;
-    }
-
-    return age;
-  };
 
   const dob = form.watch('dob');
 

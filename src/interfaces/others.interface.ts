@@ -9,5 +9,6 @@ export interface MenuItem {
   routerLink?: string;
   routerLinkActiveOptions?: { exact?: boolean };
   items?: MenuItem[];
+  queryParams?: string;
   state?: any;
 }

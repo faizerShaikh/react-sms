@@ -65,11 +65,13 @@ export function StudentHome({}: Props) {
       {userData && pendingTaks.length > 0 && (
         <Accordion type='single' collapsible className='z-10'>
           <AccordionItem value='item-1'>
-            <AccordionTrigger className='border-b py-2 rounded-none'>
+            <AccordionTrigger className='border-b py-2 rounded-none hover:no-underline'>
               <Heading>
                 <div className='flex justify-between items-center w-full gap-3'>
                   <div>Complete pending tasks</div>
-                  <Badge variant='primary'>{pendingTaks.length}</Badge>
+                  <Badge className='bg-destructive text-white hover:no-underline'>
+                    {pendingTaks.length}
+                  </Badge>
                 </div>
               </Heading>
             </AccordionTrigger>

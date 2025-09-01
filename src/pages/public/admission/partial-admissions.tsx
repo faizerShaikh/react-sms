@@ -37,7 +37,7 @@ export function PartialAdmissions({}: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: { form_number: string; dob: string }) => {
       return api
-        .get('/get-submitted-admissions/', {
+        .get('/get-partial-admissions/', {
           params: data,
         })
         .then((res) => res.data);
@@ -61,7 +61,7 @@ export function PartialAdmissions({}: Props) {
 
   const onAdmissionSelect = (admission: any) => {
     navigate(
-      `/admission/new?admission_id=${admission.id}&admission_step=${admission.admission_step}`,
+      `/admission/new?admissionId=${admission.id}&studentId=${admission.student.id}&currentStep=${admission.admission_step}`,
     );
   };
 

@@ -60,7 +60,9 @@ export const InputField: React.FC<InputProps> = ({
 
   if (isReadOnly) {
     return (
-      <div className={cn('min-h-12', className)}>
+      <div
+        className={cn('border-l border-l-zinc-100 pl-6 min-h-12', className)}
+      >
         <label className='text-sm font-semibold text-zinc-700 whitespace-nowrap'>
           {label}
         </label>

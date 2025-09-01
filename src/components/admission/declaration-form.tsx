@@ -19,7 +19,9 @@ import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Checkbox } from '../ui/checkbox';
 import { Label } from '../ui/label';
 
-type Props = {};
+type Props = {
+  isViewOnly?: boolean;
+};
 
 export const declarationFormDefaultValues = {
   declaration: false,
@@ -35,7 +37,7 @@ export const getDeclarationFormValuesToSubmit = (values: any) => {
   return values;
 };
 
-export function DeclarationForm({}: Props) {
+export function DeclarationForm({ isViewOnly }: Props) {
   const [searchParams] = useSearchParams();
   const {
     watch,
@@ -151,6 +153,7 @@ export function DeclarationForm({}: Props) {
       {contentData && <QuillViewer content={contentData.content} />}
       <div className='flex justify-start items-center gap-3 mt-5'>
         <Checkbox
+          disabled={isViewOnly}
           checked={watch('declaration')}
           id='declaration'
           onCheckedChange={(checked) => {

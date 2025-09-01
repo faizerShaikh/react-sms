@@ -37,7 +37,7 @@ export function FeesDetail({}: Props) {
 
   return (
     <div>
-      <div className='tb:hidden block'>
+      <div className=''>
         <MobileHeader>My Fees Details</MobileHeader>
       </div>
 

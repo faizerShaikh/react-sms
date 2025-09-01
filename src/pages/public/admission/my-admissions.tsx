@@ -7,6 +7,7 @@ import { Form } from '@/components/ui/form';
 import { api } from '@/configs/axios';
 import { BACKEND_DATE_FORMAT } from '@/constants';
 import { AdmissionInterface } from '@/interfaces';
+import { downloadFile } from '@/lib/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
 import { formatDate } from 'date-fns';
@@ -60,8 +61,22 @@ export function MyAdmissions({}: Props) {
     });
   };
 
+  const {
+    mutate: downloadAdmissionFormMutate,
+    isPending: isDownloadingAdmissionForm,
+  } = useMutation({
+    mutationFn: (admission: string) => {
+      return api
+        .post(`/admission-form-print/`, { id: admission })
+        .then((res) => res.data);
+    },
+    onSuccess: (data) => {
+      downloadFile(data.path, 'admission-form.pdf');
+    },
+  });
+
   const downloadAdmissionForm = (admission: any) => {
-    console.log(admission);
+    downloadAdmissionFormMutate(admission);
   };
 
   return (
@@ -132,10 +147,18 @@ export function MyAdmissions({}: Props) {
                     <div className='flex items-center gap-x-2 absolute top-0 right-0'>
                       <button
                         className='border-0 bg-primary-light rounded-full flex justify-center items-center cursor-pointer p-2'
-                        onClick={() => downloadAdmissionForm(admission)}
+                        onClick={() => downloadAdmissionForm(admission.id)}
                         title='Download Admission Form'
+                        disabled={isDownloadingAdmissionForm}
                       >
-                        <i className='ph-bold ph-download text-primary'></i>
+                        {isDownloadingAdmissionForm ? (
+                          <Loader2
+                            size={14}
+                            className='animate-spin text-primary'
+                          />
+                        ) : (
+                          <i className='ph-bold ph-download text-primary'></i>
+                        )}
                       </button>
                     </div>
                     <h4 className='flex justify-between items-center font-satoshi font-bold text-lg text-active'>

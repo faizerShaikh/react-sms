@@ -1,6 +1,5 @@
 import { api } from '@/configs/axios';
 import { ContentManagementComponentEnum } from '@/enum';
-import { AdmissionInterface } from '@/interfaces';
 import { toFormData } from '@/lib/to-form-data-helper';
 import { useQuery } from '@tanstack/react-query';
 import { useFormContext } from 'react-hook-form';
@@ -10,7 +9,9 @@ import { Heading } from '../heading';
 import { QuillViewer } from '../quill/quill-viewer';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
-type Props = {};
+type Props = {
+  isViewOnly?: boolean;
+};
 
 export const documentAttachedDefaultValues = {
   medical_certificate: null,
@@ -93,14 +94,26 @@ export const getDocumentAttachedValuesToSubmit = (values: any) => {
   return toFormData(values, fileFields);
 };
 
-export const getDocumentAttachedDefaultValues = (value: AdmissionInterface) => {
+export const getDocumentAttachedDefaultValues = (value: any) => {
   return {
     ...value,
+    student_photo:
+      value.student_photo === '/media/accounts/profiles/default.png'
+        ? null
+        : value.student_photo,
+    father_photo:
+      value.father_photo === '/media/accounts/profiles/default.png'
+        ? null
+        : value.father_photo,
+    mother_photo:
+      value.mother_photo === '/media/accounts/profiles/default.png'
+        ? null
+        : value.mother_photo,
     ...value.other_documents,
     is_update: true,
   };
 };
-export function DocumentAttached({}: Props) {
+export function DocumentAttached({ isViewOnly }: Props) {
   const {
     formState: { errors },
   } = useFormContext();
@@ -128,17 +141,20 @@ export function DocumentAttached({}: Props) {
       )}
       <div className='mt-5 gap-5 grid sm:grid-cols-1 w-full'>
         <FileInput
+          isReadOnly={isViewOnly}
           name='medical_certificate'
           helpText='Choose a file or drag & drop it here'
           label='Medical Certificate'
           required
         ></FileInput>
         <FileInput
+          isReadOnly={isViewOnly}
           name='leaving_certificate'
           helpText='Choose a file or drag & drop it here'
           label='Leaving/Transfer Certificate Of Previous School'
         ></FileInput>
         <FileInput
+          isReadOnly={isViewOnly}
           required
           name='student_photo'
           label='Student Photos'
@@ -147,6 +163,7 @@ export function DocumentAttached({}: Props) {
   Background(Student)'
         ></FileInput>
         <FileInput
+          isReadOnly={isViewOnly}
           required
           accept='image/*'
           name='mother_photo'
@@ -154,6 +171,7 @@ export function DocumentAttached({}: Props) {
           label="Mother's Photo"
         ></FileInput>
         <FileInput
+          isReadOnly={isViewOnly}
           required
           accept='image/*'
           name='father_photo'
@@ -162,12 +180,14 @@ export function DocumentAttached({}: Props) {
         ></FileInput>
 
         <FileInput
+          isReadOnly={isViewOnly}
           name='caste_certificate'
           helpText='Choose a file or drag & drop it here'
           label='Caste Certificate, If Any'
         ></FileInput>
 
         <FileInput
+          isReadOnly={isViewOnly}
           required
           name='birth_certificate'
           helpText='Choose a file or drag & drop it here'
@@ -175,16 +195,19 @@ export function DocumentAttached({}: Props) {
   (Original Or True Copies)'
         ></FileInput>
         <FileInput
+          isReadOnly={isViewOnly}
           name='previous_report_card'
           helpText='Choose a file or drag & drop it here'
           label='Report Card Of Previous School'
         ></FileInput>
         <FileInput
+          isReadOnly={isViewOnly}
           name='udise_of_preschool'
           helpText='Choose a file or drag & drop it here'
           label='Udise ID Of Previous School/Student'
         ></FileInput>
         <FileInput
+          isReadOnly={isViewOnly}
           name='aadhaar_image'
           helpText='Choose a file or drag & drop it here'
           label='Xerox Copy Of Aadhar Card'

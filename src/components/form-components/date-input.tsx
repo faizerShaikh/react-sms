@@ -102,7 +102,7 @@ function DateInput({
         <PopoverContent className='w-auto p-0'>
           <Calendar
             mode='single'
-            selected={date}
+            selected={date ? new Date(date) : undefined}
             required={required}
             onSelect={(value: Date | undefined) => {
               setValue(name, value, { shouldValidate: true });

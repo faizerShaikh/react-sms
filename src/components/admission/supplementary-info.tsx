@@ -1,7 +1,9 @@
 import * as yup from 'yup';
 import { InputField, TextareaField } from '../form-components';
 
-type Props = {};
+type Props = {
+  isViewOnly?: boolean;
+};
 
 export const supplementryInfoDefaultValues = {
   previous_school: '',
@@ -32,25 +34,33 @@ export const getSupplementryInfoValuesToSubmit = (values: any) => {
   };
 };
 
-export function SupplementaryInfo({}: Props) {
+export function SupplementaryInfo({ isViewOnly }: Props) {
   return (
     <div className='gap-4 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-      <InputField name='previous_school' label='Previous School'></InputField>
       <InputField
+        isReadOnly={isViewOnly}
+        name='previous_school'
+        label='Previous School'
+      ></InputField>
+      <InputField
+        isReadOnly={isViewOnly}
         name='previous_class'
         label='Previous Class Attended'
       ></InputField>
       <TextareaField
+        isReadOnly={isViewOnly}
         rows={4}
         name='reason_of_leaving'
         label='Reason of Leaving'
       ></TextareaField>
       <TextareaField
+        isReadOnly={isViewOnly}
         rows={4}
         name='history_of_disease'
         label='History of Disease'
       ></TextareaField>
       <TextareaField
+        isReadOnly={isViewOnly}
         rows={4}
         name='allergy_details'
         label='Any Allergy'

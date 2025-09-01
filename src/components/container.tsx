@@ -88,7 +88,11 @@ export function Container({ children }: Props) {
                   : 'none',
             }}
             onClick={() => {
-              item.routerLink && navigate(item.routerLink);
+              item.routerLink &&
+                navigate(
+                  item.routerLink +
+                    (item.queryParams ? `?${item.queryParams}` : ''),
+                );
             }}
           >
             <item.icon

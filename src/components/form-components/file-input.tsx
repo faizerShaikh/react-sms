@@ -6,6 +6,7 @@ import { DocumentViewer } from '..';
 import { HelpText } from './help-text';
 
 type Props = {
+  isReadOnly?: boolean;
   disabled?: boolean;
   label: string;
   required?: boolean;
@@ -16,13 +17,14 @@ type Props = {
 };
 
 export function FileInput({
+  isReadOnly,
   disabled,
   label,
   required,
   name,
   accept,
   multiple,
-  helpText,
+  helpText = 'Choose a file or drag & drop it here',
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const {
@@ -83,7 +85,7 @@ export function FileInput({
         {label}
         {required && <span className='text-error'>*</span>}
       </label>
-      {!disabled && (
+      {!disabled && !isReadOnly && (
         <div className='mb-3'>
           <div
             {...getRootProps()}
@@ -139,7 +141,7 @@ export function FileInput({
         files={value}
         className='!mb-0'
         label='Uploaded Files'
-        hideDelete={disabled}
+        hideDelete={disabled || isReadOnly}
         onRemoveFile={removeFile}
       ></DocumentViewer>
     </div>

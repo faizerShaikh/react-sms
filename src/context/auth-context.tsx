@@ -1,18 +1,18 @@
 import {
   ADMIN_USER_DATA,
+  AdminMenus,
   CURRENT_USER_DATA,
+  TeacherMenus,
   USERS_DATA,
+  USER_TOKEN,
   USER_TYPE,
   getStudentMenus,
   menus,
-  TeacherMenus,
-  AdminMenus,
-  USER_TOKEN,
-} from "@/constants";
-import { AuthStoreInterface, StudentDataInterface } from "@/interfaces";
+} from '@/constants';
+import { AuthStoreInterface, StudentDataInterface } from '@/interfaces';
 
-import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router";
+import { createContext, useContext, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const getInitialState = () => {
   let userData = localStorage.getItem(CURRENT_USER_DATA)
@@ -30,18 +30,18 @@ const getInitialState = () => {
 
   const initialState: AuthStoreInterface = {
     isLoggedIn: !!userData,
-    userData: userType === "Student" ? userData : null,
-    teacherData: userType === "Teacher" ? userData : null,
+    userData: userType === 'Student' ? userData : null,
+    teacherData: userType === 'Teacher' ? userData : null,
     userType,
     usersData,
     isAdminLoggedIn: !!adminUserData,
     adminUserData: adminUserData,
     menuItems: userType
-      ? typeof menus[userType] === "function"
+      ? typeof menus[userType] === 'function'
         ? menus[userType](userData)
         : menus[userType]
-        ? menus[userType]
-        : []
+          ? menus[userType]
+          : []
       : [],
     forgotPasswordStep: 1,
     forgotPasswordData: null,
@@ -54,7 +54,7 @@ const AuthContext = createContext<{
   state: AuthStoreInterface;
   setState: React.Dispatch<React.SetStateAction<AuthStoreInterface>>;
   studentLoginSuccess: (
-    response: StudentDataInterface & { adm_number: string }
+    response: StudentDataInterface & { adm_number: string },
   ) => void;
   teacherLoginSuccess: (data: any) => void;
   setIdCardFilled: () => void;
@@ -98,7 +98,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   const studentLoginSuccess = (
-    response: StudentDataInterface & { adm_number: string }
+    response: StudentDataInterface & { adm_number: string },
   ) => {
     let newData: any = {
       ...response,
@@ -111,7 +111,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (
         !usersData.find(
           (item: StudentDataInterface) =>
-            item.admissionNumber === response.adm_number
+            item.admissionNumber === response.adm_number,
         )
       ) {
         usersData.push(newData);
@@ -123,19 +123,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem(USERS_DATA, JSON.stringify(usersData));
     localStorage.setItem(CURRENT_USER_DATA, JSON.stringify(newData));
     localStorage.setItem(USER_TOKEN, newData.token);
-    localStorage.setItem(USER_TYPE, "Student");
+    localStorage.setItem(USER_TYPE, 'Student');
 
-    const redirectUrl = localStorage.getItem("redirectUrl") || "/student/home";
+    const redirectUrl = localStorage.getItem('redirectUrl') || '/student/home';
 
     navigate(redirectUrl);
     setState({
       ...state,
-      userType: "Student",
+      userType: 'Student',
       userData: newData,
       usersData: usersData,
       isLoggedIn: true,
       isAdminLoggedIn: false,
-      menuItems: getStudentMenus(),
+      menuItems: getStudentMenus(newData),
     });
   };
 
@@ -150,22 +150,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const setIdCardFilled = () => {
+    let userData = {
+      ...(state.userData as StudentDataInterface),
+      is_id_card_filled: true,
+    };
+    localStorage.setItem(CURRENT_USER_DATA, JSON.stringify(userData));
     setState({
       ...state,
-      userData: {
-        ...(state.userData as StudentDataInterface),
-        is_id_card_filled: true,
-      },
+      userData: userData,
     });
   };
 
   const setDocumentAdded = () => {
+    let userData = {
+      ...(state.userData as StudentDataInterface),
+      is_document_added: true,
+    };
+    localStorage.setItem(CURRENT_USER_DATA, JSON.stringify(userData));
     setState({
       ...state,
-      userData: {
-        ...(state.userData as StudentDataInterface),
-        is_document_added: true,
-      },
+      userData: userData,
     });
   };
 
@@ -242,7 +246,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     localStorage.clear();
-    navigate("/login");
+    navigate('/login');
     setState(getInitialState());
   };
 
@@ -250,7 +254,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     let currentUser = data ? data : state.userData;
     let usersData = state.usersData ? state.usersData : [];
     usersData = usersData.filter(
-      (profile) => profile.admissionNumber !== currentUser!.admissionNumber
+      (profile) => profile.admissionNumber !== currentUser!.admissionNumber,
     );
     localStorage.setItem(USERS_DATA, JSON.stringify(usersData));
 
@@ -272,7 +276,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       ...state,
       userData: data,
     });
-    navigate("/student/home");
+    navigate('/student/home');
   };
 
   return (

@@ -13,7 +13,9 @@ import {
   RadioInput,
   SelectInput,
 } from '../form-components';
-type Props = {};
+type Props = {
+  isViewOnly?: boolean;
+};
 
 export const getChildrenInfoValuesToSubmit = (values: any) => {
   let standard: StandardInterface = values.standard;
@@ -174,7 +176,7 @@ export const childernInfoSchema = yup.object({
   is_update: yup.boolean(),
 });
 
-export function ChildrenInfo({}: Props) {
+export function ChildrenInfo({ isViewOnly }: Props) {
   const { watch } = useFormContext();
 
   const [academicYears, religion, castes, motherTongue] = useQueries({
@@ -212,11 +214,10 @@ export function ChildrenInfo({}: Props) {
   const caste = watch('caste');
   const standard = watch('standard');
 
-  console.log(watch());
-
   return (
     <div className='mt-6 gap-3 grid sm:grid-cols-1 w-full'>
       <InputField
+        isReadOnly={isViewOnly}
         label='Phone Number'
         name='phone'
         placeholder='9999999999'
@@ -224,27 +225,31 @@ export function ChildrenInfo({}: Props) {
         helpText='Please enter whatsapp number, we will be sending notifications to this number.'
       ></InputField>
       <SelectInput
+        isReadOnly={isViewOnly}
         required
         options={academicYears?.data || []}
         label='Academic Year'
-        getOptionLabel={(item: any) => item.name}
+        getOptionLabel={(item: any) => item?.name}
         name='academic_year'
       ></SelectInput>
       <SelectInput
+        isReadOnly={isViewOnly}
         required
         options={standards || []}
         label='Select Class'
-        getOptionLabel={(item: any) => item.label}
+        getOptionLabel={(item: any) => item?.label}
         name='standard'
       ></SelectInput>
       <SelectInput
+        isReadOnly={isViewOnly}
         options={standard?.batches || []}
         required
         label='Select Batch'
-        getOptionLabel={(item: any) => item.label}
+        getOptionLabel={(item: any) => item?.label}
         name='batch'
       ></SelectInput>
       <InputField
+        isReadOnly={isViewOnly}
         required={standard?.is_aadhaar_required}
         helpText={
           standard?.is_aadhaar_required
@@ -257,29 +262,34 @@ export function ChildrenInfo({}: Props) {
       ></InputField>
 
       <InputField
+        isReadOnly={isViewOnly}
         label='First Name'
         name='first_name'
         required
         helpText='First Name should be as per Aadhar.'
       ></InputField>
       <InputField
+        isReadOnly={isViewOnly}
         label='Middle Name'
         name='middle_name'
         required
         helpText='Middle Name should be as per Aadhar.'
       ></InputField>
       <InputField
+        isReadOnly={isViewOnly}
         label='Last Name'
         name='last_name'
         required
         helpText='Last Name should be as per Aadhar.'
       ></InputField>
       <InputField
+        isReadOnly={isViewOnly}
         label='Name as per Aadhar'
         name='name_as_aadhar'
         helpText='Full Name should be as per Aadhar.'
       ></InputField>
       <RadioInput
+        isReadOnly={isViewOnly}
         orientation='vertical'
         required
         options={[
@@ -296,14 +306,26 @@ export function ChildrenInfo({}: Props) {
         name='gender'
       ></RadioInput>
 
-      <DateInput required label='Date of Birth' name='dob'></DateInput>
-      <InputField required label='Nationality' name='nationality'></InputField>
+      <DateInput
+        isReadOnly={isViewOnly}
+        required
+        label='Date of Birth'
+        name='dob'
+      ></DateInput>
       <InputField
+        isReadOnly={isViewOnly}
+        required
+        label='Nationality'
+        name='nationality'
+      ></InputField>
+      <InputField
+        isReadOnly={isViewOnly}
         required
         label='Place of Birth'
         name='place_of_birth'
       ></InputField>
       <SelectInput
+        isReadOnly={isViewOnly}
         options={motherTongue?.data || []}
         label='Mother Tongue'
         name='mother_tongue'
@@ -311,6 +333,7 @@ export function ChildrenInfo({}: Props) {
         getOptionLabel={(item: string) => item}
       ></SelectInput>
       <RadioInput
+        isReadOnly={isViewOnly}
         orientation='vertical'
         required
         options={[
@@ -327,6 +350,7 @@ export function ChildrenInfo({}: Props) {
         name='transport_facility_required'
       ></RadioInput>
       <SelectInput
+        isReadOnly={isViewOnly}
         options={religion?.data || []}
         label='Select Religion'
         required
@@ -334,20 +358,23 @@ export function ChildrenInfo({}: Props) {
         name='religion'
       ></SelectInput>
       <SelectInput
+        isReadOnly={isViewOnly}
         options={castes?.data || []}
         label='Select Caste'
         required
-        getOptionLabel={(item: any) => item.label}
+        getOptionLabel={(item: any) => item?.label}
         name='caste'
       ></SelectInput>
       <SelectInput
+        isReadOnly={isViewOnly}
         options={caste?.sub_castes || []}
         label='Sub Caste'
         required
-        getOptionLabel={(item: any) => item.label}
+        getOptionLabel={(item: any) => item?.label}
         name='sub_caste'
       ></SelectInput>
       <SelectInput
+        isReadOnly={isViewOnly}
         options={BLOOD_GROUPS || []}
         required
         getOptionLabel={(item: string) => item}

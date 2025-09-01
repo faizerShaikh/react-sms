@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { PiCaretDoubleUp } from 'react-icons/pi';
 import * as yup from 'yup';
 import { InputField, TextareaField } from '../form-components';
@@ -8,7 +9,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '../ui/accordion';
-type Props = {};
+type Props = {
+  isViewOnly?: boolean;
+};
 
 export const parentInfoDefaultValues = {
   father: {
@@ -108,7 +111,7 @@ export const getParentsInfoValuesToSubmit = (values: any) => {
   };
 };
 
-export function ParentsInfo({}: Props) {
+export function ParentsInfo({ isViewOnly }: Props) {
   return (
     <div className='gap-5 grid sm:grid-cols-1 w-full mt-5'>
       <Accordion
@@ -123,56 +126,71 @@ export function ParentsInfo({}: Props) {
             <Heading>FATHER'S DETAILS</Heading>
           </AccordionTrigger>
           <AccordionContent>
-            <div className='gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+            <div
+              className={cn(
+                'gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+                isViewOnly && 'mt-5',
+              )}
+            >
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label="Father's Name"
                 name='father.name'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Education Qualification'
                 name='father.educational_qualification'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Occupation (Job/Buisness)'
                 name='father.occupation'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Designation'
                 helpText='Please add your current designation'
                 name='father.designation'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Phone Number'
                 name='father.phone_number'
                 type='number'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 label='Alternative Phone Number'
                 name='father.alternate_phone_number'
                 type='number'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Email'
                 name='father.email'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 name='father.annual_income'
                 label='Annual Income'
                 type='number'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 label='Aadhar ID'
                 name='father.aadhaar_number'
                 placeholder='9999 9999 9999'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 label='Pan Number'
                 name='father.pan_number'
                 placeholder='AAAAA9999A'
@@ -188,56 +206,71 @@ export function ParentsInfo({}: Props) {
             <Heading>MOTHER'S DETAILS</Heading>
           </AccordionTrigger>
           <AccordionContent>
-            <div className='gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+            <div
+              className={cn(
+                'gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+                isViewOnly && 'mt-5',
+              )}
+            >
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label="Father's Name"
                 name='mother.name'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Education Qualification'
                 name='mother.educational_qualification'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Occupation (Job/Buisness)'
                 name='mother.occupation'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Designation'
                 helpText='Please add your current designation'
                 name='mother.designation'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Phone Number'
                 name='mother.phone_number'
                 type='number'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 label='Alternative Phone Number'
                 name='mother.alternate_phone_number'
                 type='number'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 label='Email'
                 name='mother.email'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 required
                 name='mother.annual_income'
                 label='Annual Income'
                 type='number'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 label='Aadhar ID'
                 name='mother.aadhaar_number'
                 placeholder='9999 9999 9999'
               ></InputField>
               <InputField
+                isReadOnly={isViewOnly}
                 label='Pan Number'
                 name='mother.pan_number'
                 placeholder='AAAAA9999A'
@@ -253,14 +286,21 @@ export function ParentsInfo({}: Props) {
             <Heading>OTHER DETAILS</Heading>
           </AccordionTrigger>
           <AccordionContent>
-            <div className='gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+            <div
+              className={cn(
+                'gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+                isViewOnly && 'mt-5',
+              )}
+            >
               <TextareaField
+                isReadOnly={isViewOnly}
                 required
                 label='Address'
                 name='other_detail.address'
                 rows={4}
               ></TextareaField>
               <TextareaField
+                isReadOnly={isViewOnly}
                 required
                 label='Permanent Address'
                 name='other_detail.permanent_address'

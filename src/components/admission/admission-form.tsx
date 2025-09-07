@@ -135,6 +135,8 @@ export function AdmissionForm({ isStudent = false }: Props) {
     defaultValues: currentStepProps?.value || {},
     resolver: yupResolver(currentStepProps?.schema || {}),
     shouldFocusError: true,
+    mode: 'onChange',
+    reValidateMode: 'onBlur',
   });
 
   const { data, isLoading } = useQuery({

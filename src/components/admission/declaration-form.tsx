@@ -73,8 +73,6 @@ export function DeclarationForm({ isViewOnly }: Props) {
     ],
   });
 
-  console.log(watch('declaration'), errors);
-
   return (
     <div>
       <Alert

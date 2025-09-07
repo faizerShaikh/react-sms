@@ -80,7 +80,7 @@ export const TextareaField: React.FC<textareaProps> = ({
           disabled={disabled}
           defaultValue={getValueByKey(getValues(), name)}
           {...register(name, { required })}
-          className={`border md:!text-lg block !w-full focus:border-primary text-active !bg-background placeholder:text-gray-300 rounded-sm px-4 py-[17px] focus-visible:ring-0 border-solid focus:outline-none ${
+          className={`border border-gray-200 shadow-none md:!text-lg block !w-full focus:!border-primary text-active !bg-background placeholder:text-gray-300 rounded-sm px-4 py-[17px] focus-visible:ring-0 border-solid focus:outline-none ${
             error ? 'border-destructive' : ''
           }`}
         />

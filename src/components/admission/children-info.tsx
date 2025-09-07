@@ -139,7 +139,7 @@ export const childernInfoSchema = yup.object({
     .nonNullable('Batch is required'),
   first_name: yup.string().required('First Name is required'),
   aadhaar_number: yup.string().when('standard', {
-    is: (standard: any) => standard?.is_aadhaar_required,
+    is: (standard: any) => !!standard?.is_aadhaar_required,
     then: (schema) => schema.required('Aadhar Number is required'),
     otherwise: (schema) => schema.notRequired(),
   }),

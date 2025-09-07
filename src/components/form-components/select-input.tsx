@@ -168,9 +168,11 @@ export function SelectInput({
               aria-expanded={open}
               name={name}
               className={cn(
-                'rounded-sm relative max-md:gap-1',
+                'rounded-sm relative max-md:gap-1 border-gray-200 shadow-none ',
                 selectVariants({ size }),
                 {
+                  'bg-gray-50': disabled,
+                  '!border-primary': open && !error,
                   'border-destructive': error,
                 },
               )}

@@ -82,11 +82,11 @@ function DateInput({
           <Button
             disabled={disabled || disable}
             className={cn(
-              'w-full justify-start gap-3 bg-white border-input border rounded-sm focus:border-primary font-normal truncate text-active text-sm md:text-lg hover:bg-white my-0 px-4 py-[17px] h-[52px]',
+              'w-full justify-start gap-3 bg-white border border-gray-200 shadow-none  rounded-sm focus:!border-primary font-normal truncate text-active text-sm md:text-lg hover:bg-white my-0 px-4 py-[17px] h-[52px]',
               !date && 'text-muted-foreground',
               {
                 'bg-gray-50': disabled || disable,
-                'border-primary': open && !error,
+                '!border-primary': open && !error,
                 'border-destructive': error,
               },
             )}

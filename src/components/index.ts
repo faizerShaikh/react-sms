@@ -3,6 +3,7 @@ export * from './announcements';
 export * from './confirm-dialog';
 export * from './dashboard-card';
 export * from './document-viewer';
+export * from './firebase-messaging';
 export * from './heading';
 export * from './homework';
 export * from './list-with-pagination';

@@ -114,7 +114,7 @@ export const InputField: React.FC<InputProps> = ({
           maxLength={maxLength}
           {...{ ...regData, ref: undefined }}
           className={cn(
-            `border md:!text-lg uppercase !h-[52px] block !w-full focus:border-primary text-active bg-background placeholder:text-gray-300 rounded-sm px-4 py-[17px] focus-visible:ring-0 border-solid focus:outline-none !leading-3 ${
+            `border md:!text-lg uppercase !h-[52px] border-gray-200 shadow-none block !w-full focus:!border-primary text-active bg-background placeholder:text-gray-300 rounded-sm px-4 py-[17px] focus-visible:ring-0 border-solid focus:outline-none !leading-3 ${
               error ? 'border-destructive' : ''
             }`,
             {

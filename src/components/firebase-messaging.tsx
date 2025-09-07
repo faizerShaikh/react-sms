@@ -15,14 +15,7 @@ export function FirebaseMessaging({}: Props) {
   const {
     state: { isLoggedIn },
   } = useAuth();
-  const { token, error } = useFirebaseMessaging();
-
-  // Log errors for debugging
-  useEffect(() => {
-    if (error) {
-      console.error('Firebase Messaging Error:', error);
-    }
-  }, [error]);
+  const { token } = useFirebaseMessaging();
 
   // only try to save if we have both a token and the user is logged in
   useEffect(() => {

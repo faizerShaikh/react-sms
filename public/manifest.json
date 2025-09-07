@@ -1,6 +1,6 @@
 {
   "name": "School Management System",
-  "short_name": "SMS React",
+  "short_name": "SMS",
   "description": "A comprehensive school management system for students, teachers, and administrators",
   "theme_color": "#004ab0",
   "background_color": "#ffffff",
@@ -13,18 +13,6 @@
   "id": "/",
   "dir": "ltr",
   "prefer_related_applications": false,
-  "display_override": ["window-controls-overlay"],
-  "features": ["Cross Platform", "fast", "simple"],
-  "iarc_rating_id": "e58c174a-81d2-5c3c-32cc-34b8de4a52e9",
-  "related_applications": [
-    {
-      "platform": "web",
-      "url": "https://quartoloom.com"
-    }
-  ],
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
   "icons": [
     {
       "src": "pwa-64x64.png",
@@ -49,34 +37,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    }
-  ],
-  "launch_handler": {
-    "client_mode": ["navigate-existing", "auto"]
-  },
-  "handle_links": "preferred",
-  "shortcuts": [
-    {
-      "name": "Announcements",
-      "short_name": "Announcements",
-      "description": "View your announcements",
-      "url": "/student/announcements",
-      "icons": [
-        {
-          "src": "images/student-portal/announcements.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ],
-  "share_target": {
-    "action": "/",
-    "method": "GET"
-  },
-  "protocol_handlers": [
-    {
-      "protocol": "https",
-      "url": "/login"
     }
   ],
   "screenshots": [

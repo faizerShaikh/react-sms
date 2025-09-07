@@ -16,56 +16,31 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
 
+      // Use the existing manifest.json instead of inline config
+      useCredentials: true,
+
       pwaAssets: {
-        disabled: true,
-        config: true,
+        disabled: false,
+        config: false, // Use existing manifest.json
       },
 
       // Enable update detection
       includeAssets: [
         'favicon.ico',
         'apple-touch-icon-180x180.png',
-        'masked-icon.svg',
+        'pwa-64x64.png',
+        'pwa-192x192.png',
+        'pwa-512x512.png',
+        'maskable-icon-512x512.png',
       ],
+
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
-        skipWaiting: false, // Don't skip waiting automatically, let user choose
-      },
-
-      manifest: {
-        name: 'School Management System',
-        short_name: 'SMS',
-        theme_color: '#004ab0',
-        background_color: '#ffffff',
-        display: 'standalone',
-        scope: '/',
-        start_url: '/',
-        prefer_related_applications: false,
-        icons: [
-          {
-            src: 'pwa-64x64.png',
-            sizes: '64x64',
-            type: 'image/png',
-          },
-          {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-          {
-            src: 'maskable-icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable',
-          },
-        ],
+        skipWaiting: false,
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api\//],
       },
 
       devOptions: {

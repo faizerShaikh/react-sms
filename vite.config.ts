@@ -16,13 +16,16 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
 
-      // Use the existing manifest.json instead of inline config
+      // Use the existing manifest.json instead of generating a new one
       useCredentials: true,
 
       pwaAssets: {
-        disabled: false,
+        disabled: true, // Disable assets generator since we have existing icons
         config: false, // Use existing manifest.json
       },
+
+      // Disable manifest generation to use existing one
+      manifest: false,
 
       // Enable update detection
       includeAssets: [
@@ -32,6 +35,7 @@ export default defineConfig({
         'pwa-192x192.png',
         'pwa-512x512.png',
         'maskable-icon-512x512.png',
+        'manifest.json', // Include the existing manifest
       ],
 
       workbox: {

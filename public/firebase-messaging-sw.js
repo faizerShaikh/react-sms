@@ -21,12 +21,12 @@ console.log(messaging, '<=====messaging');
 messaging.onBackgroundMessage((payload) => {
   console.log('[sw] bg message', payload);
 
-  const { title, body } = payload.notification || {};
+  const { title, message } = payload.data || {};
   // Try fcmOptions.link (webpush.link) first, then fallback to data.link
   const url = payload.fcmOptions?.link || payload.data?.url;
 
   const options = {
-    body,
+    body: message,
     data: { url },
     // you can add icon, badge, etc. here too
     // icon: '/icons/icon-192x192.png',

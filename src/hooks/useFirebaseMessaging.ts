@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 
 export function useFirebaseMessaging() {
   const [token, setToken] = useState<string | null>(null);
-  const [error, setError] = useState<Error | null>(null);
   async function requestPermission() {
     //requesting permission using Notification API
     const permission = await Notification.requestPermission();
@@ -20,16 +19,13 @@ export function useFirebaseMessaging() {
       //We can send token to server
       console.log('Token generated : ', token);
       setToken(token);
-    } else if (permission === 'denied') {
-      //notifications are blocked
-      alert('You denied for the notification');
-      setError(new Error('You denied for the notification'));
     }
+    console.log('Permission : ', permission);
   }
 
   useEffect(() => {
     requestPermission();
   }, []);
 
-  return { token, error };
+  return { token };
 }

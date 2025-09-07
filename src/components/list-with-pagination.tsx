@@ -75,7 +75,7 @@ export function ListWithPagination<T>({
 
   if (isLoading) {
     return (
-      <div className={cn('flex flex-col gap-4', className)}>
+      <div className={cn('flex flex-col gap-4 w-full', className)}>
         {renderHeader?.(data)}
         <div className='flex flex-col gap-4'>
           {skeletonComponent ||
@@ -92,9 +92,9 @@ export function ListWithPagination<T>({
 
   if (!data?.rows || data.rows.length === 0) {
     return (
-      <div className={cn('flex flex-col gap-4', className)}>
+      <div className={cn('flex flex-col gap-4 w-full', className)}>
         {renderHeader?.(data)}
-        <div className='h-full mt-10'>
+        <div className='h-full mt-10 w-full'>
           {renderEmpty?.() || <NoData message={noDataMessage} />}
         </div>
       </div>
@@ -102,13 +102,13 @@ export function ListWithPagination<T>({
   }
 
   return (
-    <div className={cn('flex flex-col gap-4', className)}>
+    <div className={cn('flex flex-col gap-4 w-full', className)}>
       {renderHeader?.(data)}
 
-      <div className=''>
+      <div className='w-full'>
         {data.rows.map((item, index) => renderItem(item, index))}
       </div>
-      <div className='flex justify-between items-center mt-5'>
+      <div className='flex justify-between items-center mt-5 w-full'>
         {data.count > 0 && (
           <div className='text-center text-sm text-gray-500'>
             Showing {page * limit + 1} to{' '}

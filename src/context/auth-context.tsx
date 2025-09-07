@@ -12,7 +12,7 @@ import {
 import { AuthStoreInterface, StudentDataInterface } from '@/interfaces';
 
 import { createContext, useContext, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 
 const getInitialState = () => {
   let userData = localStorage.getItem(CURRENT_USER_DATA)
@@ -94,7 +94,7 @@ const AuthContext = createContext<{
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, setState] = useState<AuthStoreInterface>(getInitialState());
-
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const studentLoginSuccess = (
@@ -125,7 +125,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem(USER_TOKEN, newData.token);
     localStorage.setItem(USER_TYPE, 'Student');
 
-    const redirectUrl = localStorage.getItem('redirectUrl') || '/student/home';
+    const redirectUrl = searchParams.get('redirectUrl') || '/student/home';
 
     navigate(redirectUrl);
     setState({
@@ -140,6 +140,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const teacherLoginSuccess = (data: any) => {
+    let newData = {
+      ...data,
+    };
+
+    localStorage.setItem(CURRENT_USER_DATA, JSON.stringify(newData));
+    localStorage.setItem(USER_TOKEN, JSON.stringify(newData.token));
+    localStorage.setItem(USER_TYPE, JSON.stringify('Teacher'));
+    const redirectUrl = searchParams.get('redirectUrl') || '/teacher';
+    window.location.href = redirectUrl;
+
     setState({
       ...state,
       userData: data,

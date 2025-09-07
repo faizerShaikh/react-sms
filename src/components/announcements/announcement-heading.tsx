@@ -1,14 +1,15 @@
-import { AnnouncementReciverInterface } from "@/interfaces";
-import { Badge } from "../ui/badge";
-import { formatDate } from "date-fns";
-import { FRONTEND_DATE_FORMAT } from "@/constants";
+import { FRONTEND_DATE_FORMAT } from '@/constants';
+import { AnnouncementInterface } from '@/interfaces';
+import { formatDate } from 'date-fns';
+import { Badge } from '../ui/badge';
 
 type Props = {
-  item: AnnouncementReciverInterface;
+  item: AnnouncementInterface;
   showRead?: boolean;
+  isRead?: boolean;
 };
 
-export function AnnouncementHeading({ item, showRead }: Props) {
+export function AnnouncementHeading({ item, showRead, isRead }: Props) {
   return (
     <div className='flex justify-between items-start gap-2'>
       <div className='flex justify-start items-center gap-2'>
@@ -17,10 +18,10 @@ export function AnnouncementHeading({ item, showRead }: Props) {
         </div>
         <div className='flex flex-col gap-1'>
           <h1 className='font-satoshi font-bold text-base leading-5 text-heading'>
-            {item.announcement.title}
+            {item?.title}
           </h1>
           <p className='m-0 text-[10px] font-medium leading-3 text-primary'>
-            {formatDate(item.announcement.created_on, FRONTEND_DATE_FORMAT)}
+            {item && formatDate(item?.created_on, FRONTEND_DATE_FORMAT)}
           </p>
         </div>
       </div>
@@ -29,13 +30,13 @@ export function AnnouncementHeading({ item, showRead }: Props) {
         {showRead && (
           <Badge
             className='text-end'
-            variant={item.is_read ? "success" : "destructive"}
+            variant={isRead ? 'success' : 'destructive'}
           >
-            {item.is_read ? "Read" : "Unread"}
+            {isRead ? 'Read' : 'Unread'}
           </Badge>
         )}
         <div className='text-placeholder text-xs mt-1 font-satoshi text-end'>
-          {item.announcement.created_by_name}
+          {item?.created_by_name}
         </div>
       </div>
     </div>

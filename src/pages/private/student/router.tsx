@@ -1,4 +1,8 @@
-import { MyAnnouncements, StudentWrapper } from '@/components';
+import {
+  AnnouncementDetail,
+  MyAnnouncements,
+  StudentWrapper,
+} from '@/components';
 import { Route, Routes } from 'react-router';
 import { AdmissionDetails } from './admission/admission-details';
 import { FeesDetail } from './admission/fees-detail';
@@ -14,6 +18,7 @@ export function StudentRouter() {
     <Routes>
       <Route path='/student' element={<StudentWrapper />}>
         <Route path='announcements' element={<MyAnnouncements />} />
+        <Route path='announcements/:id' element={<AnnouncementDetail />} />
         <Route path='home' element={<StudentHome />} />
         <Route path='my-profile' element={<MyProfile />} />
         <Route path='homework' element={<MyClassroom />} />

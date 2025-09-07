@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { AnnouncementCardSkeleton } from "./announcement-card-skeleton";
+import { cn } from '@/lib/utils';
+import { AnnouncementCardSkeleton } from './announcement-card-skeleton';
 
 type Props = {
   count?: number;
@@ -8,10 +8,18 @@ type Props = {
 
 export function AnnouncementsSkeleton({ count = 3, className }: Props) {
   return (
-    <div className={cn("flex flex-col gap-4", className)}>
+    <div className={cn('flex flex-col gap-4', className)}>
       {Array.from({ length: count }).map((_, index) => (
         <AnnouncementCardSkeleton key={index} />
       ))}
     </div>
   );
 }
+
+export const AnnouncementDetailSkeleton = () => {
+  return (
+    <div className='flex flex-col gap-4'>
+      <AnnouncementCardSkeleton isCard={false} />
+    </div>
+  );
+};

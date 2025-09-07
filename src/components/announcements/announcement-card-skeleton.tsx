@@ -1,20 +1,23 @@
-import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 type Props = {
   className?: string;
+  isCard?: boolean;
 };
 
-export function AnnouncementCardSkeleton({ className }: Props) {
+export function AnnouncementCardSkeleton({ className, isCard = true }: Props) {
   return (
     <div
       className={cn(
-        "border-slate-100 shadow-s border-solid border-[1px] rounded-lg p-4 flex flex-col gap-3",
-        className
+        'border-slate-100 border-solid border-[1px] rounded-lg p-4 flex flex-col gap-3',
+        isCard && 'shadow-s',
+        className,
+        !isCard && 'border-0',
       )}
     >
       {/* Header section - mimics AnnouncementHeading */}
-      <div className='flex flex-col gap-2'>
+      <div className={cn('flex flex-col gap-2', !isCard && 'mb-10')}>
         {/* Title skeleton */}
         <Skeleton className='h-5 w-3/4' />
 

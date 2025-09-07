@@ -7,6 +7,7 @@ import { useFirebaseMessaging } from '@/hooks/useFirebaseMessaging';
 import { messaging } from '@/lib/firebase';
 import { onMessage } from 'firebase/messaging';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 interface Props {}
 
@@ -43,45 +44,14 @@ export function FirebaseMessaging({}: Props) {
       if (payload.notification) {
         const { title, body } = payload.notification;
         if (title && body) {
-          new Notification(title, {
-            body,
-            icon: '/icons/icon-192x192.png',
+          toast.info(title, {
+            description: body,
           });
         }
       }
     });
     return unsub;
   }, []);
-
-  // For development: show token and error status
-  if (process.env.NODE_ENV === 'development') {
-    return (
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          background: 'rgba(0,0,0,0.8)',
-          color: 'white',
-          padding: '10px',
-          fontSize: '12px',
-          zIndex: 9999,
-          maxWidth: '300px',
-        }}
-      >
-        <div>FCM Status:</div>
-        {error && <div style={{ color: 'red' }}>Error: {error.message}</div>}
-        {token && (
-          <div style={{ color: 'green' }}>
-            Token: {token.substring(0, 20)}...
-          </div>
-        )}
-        {!token && !error && (
-          <div style={{ color: 'yellow' }}>Initializing...</div>
-        )}
-      </div>
-    );
-  }
 
   return null;
 }

@@ -4,6 +4,7 @@ import { MobileHeader } from '@/components/mobile-header';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/context/auth-context';
+import { StudentDataInterface } from '@/interfaces/auth';
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import { Link } from 'react-router';
 
@@ -58,42 +59,47 @@ export function MyProfile({}: Props) {
           Add More Account
         </div>
       </Link>
-      {usersData?.map(
-        (item) =>
-          item.admissionNumber !== userData?.admissionNumber && (
-            <div className='flex justify-between items-center shadow border border-solid border-gray-100 rounded-lg p-2 hover:bg-slate-100 cursor-pointer'>
-              <div
-                className='flex justify-start items-center gap-2'
-                onClick={() => {
-                  setCurrentUser(item);
-                }}
-              >
-                <Avatar className='w-16 h-16'>
-                  <AvatarImage
-                    className='object-cover object-center'
-                    src={
-                      import.meta.env.VITE_MEDIA_FOLDER_URL + item?.photo || ''
-                    }
-                  />
-                  <AvatarFallback>
-                    {item?.name?.charAt(0) +
-                      (item?.name?.split(' ')[1]?.charAt(0) || '')}
-                  </AvatarFallback>
-                </Avatar>
+      {usersData
+        ?.filter(
+          (item: StudentDataInterface) =>
+            item.student_id !== userData?.student_id,
+        )
+        ?.map((item) => (
+          <div
+            key={item.student_id}
+            className='flex justify-between items-center shadow border border-solid border-gray-100 rounded-lg p-2 hover:bg-slate-100 cursor-pointer'
+          >
+            <div
+              className='flex justify-start items-center gap-2'
+              onClick={() => {
+                setCurrentUser(item);
+              }}
+            >
+              <Avatar className='w-16 h-16'>
+                <AvatarImage
+                  className='object-cover object-center'
+                  src={
+                    import.meta.env.VITE_MEDIA_FOLDER_URL + item?.photo || ''
+                  }
+                />
+                <AvatarFallback>
+                  {item?.name?.charAt(0) +
+                    (item?.name?.split(' ')[1]?.charAt(0) || '')}
+                </AvatarFallback>
+              </Avatar>
 
-                <div className='flex justify-start items-start flex-col'>
-                  <h4 className='text-heading font-semibold text-base font-satoshi'>
-                    {item.name}
-                  </h4>
-                  <p className='text-placeholder font-medium text-sm font-satoshi'>
-                    Admission Number :- {item.admissionNumber}
-                  </p>
-                </div>
+              <div className='flex justify-start items-start flex-col'>
+                <h4 className='text-heading font-semibold text-base font-satoshi'>
+                  {item.name}
+                </h4>
+                <p className='text-placeholder font-medium text-sm font-satoshi'>
+                  Admission Number :- {item.admissionNumber}
+                </p>
               </div>
-              <LogoutAlert userData={item} />
             </div>
-          ),
-      )}
+            <LogoutAlert userData={item} />
+          </div>
+        ))}
     </div>
   );
 }

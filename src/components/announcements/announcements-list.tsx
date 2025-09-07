@@ -6,17 +6,11 @@ import { AnnouncementCard } from './announcement-card';
 import { AnnouncementsSkeleton } from './announcements-skeleton';
 
 type Props = {
-  selectedAnnouncement: AnnouncementReciverInterface | null;
-  setSelectedAnnouncement: (
-    announcement: AnnouncementReciverInterface | null,
-  ) => void;
   markAsRead: (id: string) => void;
   isLoading: boolean;
 };
 
 export const AnnouncementsList = ({
-  selectedAnnouncement,
-  setSelectedAnnouncement,
   markAsRead,
   isLoading: isLoadingMarkAsRead,
 }: Props) => {
@@ -24,16 +18,10 @@ export const AnnouncementsList = ({
     <ListWithPagination
       apiUrl='/app/announcements/my/list/'
       renderItem={(item: AnnouncementReciverInterface) => (
-        <AnnouncementCard
-          showRead
-          key={item.id}
-          item={item}
-          isSelected={selectedAnnouncement?.id === item.id}
-          setSelectedAnnouncement={setSelectedAnnouncement}
-        />
+        <AnnouncementCard showRead key={item.id} item={item} />
       )}
       renderHeader={(data: any) => (
-        <div className='flex justify-end items-center gap-2'>
+        <div className='flex justify-end items-center gap-2 w-full'>
           <button
             disabled={isLoadingMarkAsRead || data?.isAllRead}
             className={cn(

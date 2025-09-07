@@ -1,32 +1,26 @@
 import { AnnouncementReciverInterface } from '@/interfaces';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router';
 import { AnnouncementHeading } from './announcement-heading';
 type Props = {
   item: AnnouncementReciverInterface;
   showRead?: boolean;
-  isSelected: boolean;
-  setSelectedAnnouncement: (
-    announcement: AnnouncementReciverInterface | null,
-  ) => void;
 };
 
-export function AnnouncementCard({
-  item,
-  showRead,
-  isSelected,
-  setSelectedAnnouncement,
-}: Props) {
+export function AnnouncementCard({ item, showRead }: Props) {
+  const navigate = useNavigate();
   return (
     <div
       className={cn(
         'border-slate-100 shadow-s border-solid border-[1px] cursor-pointer rounded-lg p-4 flex flex-col mb-4 gap-3 hover:bg-primary-light',
-        {
-          'bg-primary-light': isSelected,
-        },
       )}
-      onClick={() => setSelectedAnnouncement(item)}
+      onClick={() => navigate(`/student/announcements/${item.id}`)}
     >
-      <AnnouncementHeading item={item} showRead={showRead} />
+      <AnnouncementHeading
+        item={item.announcement}
+        showRead={showRead}
+        isRead={item.is_read}
+      />
       <p
         className='m-0 text-placeholder text-sm font-medium font-satoshi line-clamp-5'
         dangerouslySetInnerHTML={{ __html: item.announcement.content }}
